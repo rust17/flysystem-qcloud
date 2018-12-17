@@ -1,0 +1,17 @@
+{
+    "name": "circle33/laravel-translation",
+    "description": "translation package demo",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "circle",
+            "email": "newnash@163.com"
+        }
+    ],
+    "require": {},
+	"autoload": {
+		"psr-4": {
+			"Circle33\\Translation\\": "src"
+		}
+	}
+}
