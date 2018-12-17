@@ -13,5 +13,8 @@
 		"psr-4": {
 			"Circle33\\Translation\\": "src"
 		}
-	}
+	},
+    "require-dev": {
+        "orchestra/testbench": "^3.7"
+    }
 }
