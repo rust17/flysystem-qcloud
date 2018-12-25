@@ -1,6 +1,6 @@
 {
-    "name": "circle33/laravel-translation",
-    "description": "translation package demo",
+    "name": "circle33/laravel-qcloud-filesystem",
+    "description": "qcloud filesystem package",
     "license": "MIT",
     "authors": [
         {
@@ -11,7 +11,7 @@
     "require": {},
 	"autoload": {
 		"psr-4": {
-			"Circle33\\Translation\\": "src"
+			"Circle33\\Filesystem\\Qcloud": "src"
 		}
 	},
     "require-dev": {
