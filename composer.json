@@ -1,5 +1,5 @@
 {
-    "name": "circle33/laravel-qcloud-filesystem",
+    "name": "circle33/flysystem-qcloud",
     "description": "qcloud filesystem package",
     "license": "MIT",
     "authors": [
@@ -8,13 +8,13 @@
             "email": "newnash@163.com"
         }
     ],
-    "require": {},
+    "require": {
+        "league/flysystem": "^1.0",
+        "qcloud/cos-sdk-v5": "^1.3"
+    },
 	"autoload": {
 		"psr-4": {
-			"Circle33\\Filesystem\\Qcloud": "src"
+			"Circle33\\Flysystem\\Qcloud\\": "src"
 		}
-	},
-    "require-dev": {
-        "orchestra/testbench": "^3.7"
-    }
+	}
 }
