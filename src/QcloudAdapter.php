@@ -6,9 +6,50 @@ require __DIR__.'/../vendor/autoload.php';
 
 use League\Flysystem\Config;
 use League\Flysystem\Adapter\AbstractAdapter;
+use Qcloud\Cos\Client;
 
 class QcloudAdapter extends AbstractAdapter
 {
+
+    /**
+     * @var \Qcloud\Cos\Client
+     */
+    protected $client;
+
+    /**
+     * @var string
+     */
+    protected $secrectId;
+
+    /**
+     * @var string
+     */
+    protected $secrectKey;
+
+    /**
+     * @var string
+     */
+    protected $bucket;
+
+    /**
+     * @var string
+     */
+    protected $region;
+
+    /**
+     * QcloudAdapter constructor
+     * @param string $region
+     * @param string $secrectId
+     * @param string $secrectKey
+     */
+    public function __construct($secrectId, $secrectKey, $bucket, $region)
+    {
+        $this->region     = $region;
+        $this->secrectId  = $secrectId;
+        $this->secrectKey = $secrectKey;
+        $this->bucket     = $bucket;
+    }
+
     /**
      * Write a new file.
      *
@@ -19,7 +60,33 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false false on failure file meta data on success
      */
     public function write($path, $contents, Config $config)
-    {}
+    {
+        if ($config->has('bucket')) {
+            $bucket = $config->get('bucket');
+        }
+
+        $arr = ['Bucket' => $bucket ?: $this->bucket, 'Key' => $path, 'Body' => $contents];
+
+        $this->client()->putObject($arr);
+
+        return true;
+    }
+
+    /**
+     * Get a new client.
+     *
+     * @return \Qcloud\Cos\Client
+     */
+    public function client()
+    {
+        return $this->client ?: $this->client = new Client([
+            'region'      => $this->region,
+            'credentials' => [
+                'secrectId'  => $this->secrectId,
+                'secrectKey' => $this->secrectKey,
+            ],
+        ]);
+    }
 
     /**
      * Write a new file using a stream.
@@ -214,5 +281,12 @@ class QcloudAdapter extends AbstractAdapter
 }
 
 // $Qcloud = new QcloudAdapter();
-// $config = new Config();
+// $config = new Config([
+//             'region' => 'sdfsa',
+//             'credentials' => [
+//                 'secrectId' => 'sdfsdf',
+//                 'secrectKey' => 'sdff',
+//             ],
+//         ]);
+// print_r($config->get('region'));die;
 // $Qcloud->write('asdf', 'asdfs', $config);
