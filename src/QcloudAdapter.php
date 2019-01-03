@@ -132,13 +132,6 @@ class QcloudAdapter extends AbstractAdapter
         return true;
     }
 
-    public function delete($bucket, $path)
-    {
-        $arr = ['Bucket' => $bucket ?: $this->bucket, 'Key' => $path];
-
-        $this->client()->deleteObject($arr);
-    }
-
     /**
      * Update a file using a stream.
      *
@@ -181,7 +174,15 @@ class QcloudAdapter extends AbstractAdapter
      * @return bool
      */
     public function copy($path, $newpath)
-    {}
+    {
+        $arr = ['Bucket' => $this->bucket, 'CopySource' => '{$this->bucket}.cos.{$this->region}.myqcloud.com/{$path}', 'Key' => $newpath];
+
+        $this->client()->copyObject($arr);
+
+        $this->delete($this->bucket, $path);
+
+        return true;
+    }
 
     /**
      * Delete a file.
@@ -191,7 +192,11 @@ class QcloudAdapter extends AbstractAdapter
      * @return bool
      */
     public function delete($path)
-    {}
+    {
+        $arr = ['Bucket' => $this->bucket, 'Key' => $path];
+
+        $this->client()->deleteObject($arr);
+    }
 
     /**
      * Delete a directory.
@@ -201,7 +206,9 @@ class QcloudAdapter extends AbstractAdapter
      * @return bool
      */
     public function deleteDir($dirname)
-    {}
+    {
+        return true;
+    }
 
     /**
      * Create a directory.
@@ -212,7 +219,9 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false
      */
     public function createDir($dirname, Config $config)
-    {}
+    {
+        return ['path' => $dirname, 'type' => 'dir'];
+    }
 
     /**
      * Set the visibility for a file.
@@ -223,7 +232,9 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false file meta data
      */
     public function setVisibility($path, $visibility)
-    {}
+    {
+        return true;
+    }
 
     /**
      * Check whether a file exists.
@@ -233,7 +244,14 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|bool|null
      */
     public function has($path)
-    {}
+    {
+        $res = $this->client()->headObject([
+            'Bucket' => $this->bucket,
+            'Key' => $path,
+        ]);
+
+        return is_array($res);
+    }
 
     /**
      * Read a file.
@@ -243,7 +261,12 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false
      */
     public function read($path)
-    {}
+    {
+        return $this->client()->headObject([
+            'Bucket' => $this->bucket,
+            'Key' => $path,
+        ]);
+    }
 
     /**
      * Read a file as a stream.
@@ -253,7 +276,14 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false
      */
     public function readStream($path)
-    {}
+    {
+        $result = $this->client()->getObject([
+            'Bucket' => $this->bucket,
+            'Key' => $path
+        ]);
+
+        return $result['Body'];
+    }
 
     /**
      * List contents of a directory.
