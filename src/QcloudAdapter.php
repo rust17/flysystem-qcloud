@@ -98,7 +98,17 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false false on failure file meta data on success
      */
     public function writeStream($path, $resource, Config $config)
-    {}
+    {
+        if ($config->has('bucket')) {
+            $bucket = $config->get('bucket');
+        }
+
+        $arr = ['Bucket' => $bucket ?: $this->bucket, 'Key' => $path, 'Body' => fopen($resource, 'rb')];
+
+        $this->client()->putObject($arr);
+
+        return true;
+    }
 
     /**
      * Update a file.
@@ -110,7 +120,24 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false false on failure file meta data on success
      */
     public function update($path, $contents, Config $config)
-    {}
+    {
+        if ($config->has('bucket')) {
+            $bucket = $config->get('bucket');
+        }
+
+        $this->delete($bucket, $path);
+
+        $this->write($path, $contents, $config);
+
+        return true;
+    }
+
+    public function delete($bucket, $path)
+    {
+        $arr = ['Bucket' => $bucket ?: $this->bucket, 'Key' => $path];
+
+        $this->client()->deleteObject($arr);
+    }
 
     /**
      * Update a file using a stream.
@@ -122,7 +149,17 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false false on failure file meta data on success
      */
     public function updateStream($path, $resource, Config $config)
-    {}
+    {
+        if ($config->has('bucket')) {
+            $bucket = $config->get('bucket');
+        }
+
+        $this->delete($bucket, $path);
+
+        $this->writeStream($path, $resource, $config);
+
+        return true;
+    }
 
     /**
      * Rename a file.
