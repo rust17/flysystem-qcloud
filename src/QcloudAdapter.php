@@ -73,22 +73,6 @@ class QcloudAdapter extends AbstractAdapter
     }
 
     /**
-     * Get a new client.
-     *
-     * @return \Qcloud\Cos\Client
-     */
-    public function client()
-    {
-        return $this->client ?: $this->client = new Client([
-            'region'      => $this->region,
-            'credentials' => [
-                'secretId'  => $this->secretId,
-                'secretKey' => $this->secretKey,
-            ],
-        ]);
-    }
-
-    /**
      * Write a new file using a stream.
      *
      * @param string   $path
@@ -199,7 +183,12 @@ class QcloudAdapter extends AbstractAdapter
     {
         $arr = ['Bucket' => $this->bucket, 'Key' => $path];
 
-        $this->client()->deleteObject($arr);
+        try {
+            $result = $this->client()->deleteObject($arr);
+            return is_object($result);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -236,12 +225,10 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function has($path)
     {
-        try {
-            $result = $this->client()->headObject(array(
-                'Bucket' => $this->bucket,
-                'Key' => $path,
-            ));
+        $arr = ['Bucket' => $this->bucket, 'Key' => $path];
 
+        try {
+            $result = $this->client()->headObject($arr);
             return is_object($result);
         } catch (\Exception $e) {
             return false;
@@ -257,10 +244,13 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function read($path)
     {
-        return $this->client()->headObject([
+        $object = $this->client()->getObject([
             'Bucket' => $this->bucket,
             'Key' => $path,
         ]);
+        $contents = $object->get('Body')->__toString();
+
+        return compact('contents', 'path');
     }
 
     /**
@@ -353,15 +343,20 @@ class QcloudAdapter extends AbstractAdapter
 
         return $result['LastModified'];
     }
-}
 
-// $Qcloud = new QcloudAdapter();
-// $config = new Config([
-//             'region' => 'sdfsa',
-//             'credentials' => [
-//                 'secretId' => 'sdfsdf',
-//                 'secretKey' => 'sdff',
-//             ],
-//         ]);
-// print_r($config->get('region'));die;
-// $Qcloud->write('asdf', 'asdfs', $config);
+    /**
+     * Get a new client.
+     *
+     * @return \Qcloud\Cos\Client
+     */
+    public function client()
+    {
+        return $this->client ?: $this->client = new Client([
+            'region'      => $this->region,
+            'credentials' => [
+                'secretId'  => $this->secretId,
+                'secretKey' => $this->secretKey,
+            ],
+        ]);
+    }
+}
