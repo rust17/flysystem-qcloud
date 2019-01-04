@@ -6,10 +6,12 @@ require __DIR__.'/../vendor/autoload.php';
 
 use League\Flysystem\Config;
 use League\Flysystem\Adapter\AbstractAdapter;
+use League\Flysystem\Adapter\Ployfill\NotSupportingVisibilityTrait;
 use Qcloud\Cos\Client;
 
 class QcloudAdapter extends AbstractAdapter
 {
+    use NotSupportingVisibilityTrait;
 
     /**
      * @var \Qcloud\Cos\Client
@@ -163,7 +165,13 @@ class QcloudAdapter extends AbstractAdapter
      * @return bool
      */
     public function rename($path, $newpath)
-    {}
+    {
+        $this->copy($path, $newpath);
+
+        $this->delete($this->bucket, $path);
+
+        return true;
+    }
 
     /**
      * Copy a file.
@@ -178,8 +186,6 @@ class QcloudAdapter extends AbstractAdapter
         $arr = ['Bucket' => $this->bucket, 'CopySource' => '{$this->bucket}.cos.{$this->region}.myqcloud.com/{$path}', 'Key' => $newpath];
 
         $this->client()->copyObject($arr);
-
-        $this->delete($this->bucket, $path);
 
         return true;
     }
@@ -221,19 +227,6 @@ class QcloudAdapter extends AbstractAdapter
     public function createDir($dirname, Config $config)
     {
         return ['path' => $dirname, 'type' => 'dir'];
-    }
-
-    /**
-     * Set the visibility for a file.
-     *
-     * @param string $path
-     * @param string $visibility
-     *
-     * @return array|false file meta data
-     */
-    public function setVisibility($path, $visibility)
-    {
-        return true;
     }
 
     /**
@@ -294,7 +287,14 @@ class QcloudAdapter extends AbstractAdapter
      * @return array
      */
     public function listContents($directory = '', $recursive = false)
-    {}
+    {
+        $result = $this->client()->listObjects([
+            'Bucket' => $this->bucket,
+            'Prefix' => $directory
+        ]);
+
+        return $result;
+    }
 
     /**
      * Get all the meta data of a file or directory.
@@ -304,7 +304,11 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false
      */
     public function getMetadata($path)
-    {}
+    {
+        $result = $this->read($path);
+
+        return $result['MissingMeta'];
+    }
 
     /**
      * Get the size of a file.
@@ -314,7 +318,11 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false
      */
     public function getSize($path)
-    {}
+    {
+        $result = $this->read($path);
+
+        return $result['ContentLength'];
+    }
 
     /**
      * Get the mimetype of a file.
@@ -324,7 +332,11 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false
      */
     public function getMimetype($path)
-    {}
+    {
+        $result = $this->read($path);
+
+        return $result;
+    }
 
     /**
      * Get the last modified time of a file as a timestamp.
@@ -334,17 +346,11 @@ class QcloudAdapter extends AbstractAdapter
      * @return array|false
      */
     public function getTimestamp($path)
-    {}
+    {
+        $result = $this->read($path);
 
-    /**
-     * Get the visibility of a file.
-     *
-     * @param string $path
-     *
-     * @return array|false
-     */
-    public function getVisibility($path)
-    {}
+        return $result['LastModified'];
+    }
 }
 
 // $Qcloud = new QcloudAdapter();
