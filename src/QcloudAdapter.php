@@ -6,7 +6,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 use League\Flysystem\Config;
 use League\Flysystem\Adapter\AbstractAdapter;
-use League\Flysystem\Adapter\Ployfill\NotSupportingVisibilityTrait;
+use League\Flysystem\Adapter\Polyfill\NotSupportingVisibilityTrait;
 use Qcloud\Cos\Client;
 
 class QcloudAdapter extends AbstractAdapter
