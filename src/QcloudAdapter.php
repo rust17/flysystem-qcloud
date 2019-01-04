@@ -21,12 +21,12 @@ class QcloudAdapter extends AbstractAdapter
     /**
      * @var string
      */
-    protected $secrectId;
+    protected $secretId;
 
     /**
      * @var string
      */
-    protected $secrectKey;
+    protected $secretKey;
 
     /**
      * @var string
@@ -41,15 +41,15 @@ class QcloudAdapter extends AbstractAdapter
     /**
      * QcloudAdapter constructor
      * @param string $region
-     * @param string $secrectId
-     * @param string $secrectKey
+     * @param string $secretId
+     * @param string $secretKey
      */
-    public function __construct($secrectId, $secrectKey, $bucket, $region)
+    public function __construct($secretId, $secretKey, $bucket, $region)
     {
-        $this->region     = $region;
-        $this->secrectId  = $secrectId;
-        $this->secrectKey = $secrectKey;
-        $this->bucket     = $bucket;
+        $this->region    = $region;
+        $this->secretId  = $secretId;
+        $this->secretKey = $secretKey;
+        $this->bucket    = $bucket;
     }
 
     /**
@@ -84,8 +84,8 @@ class QcloudAdapter extends AbstractAdapter
         return $this->client ?: $this->client = new Client([
             'region'      => $this->region,
             'credentials' => [
-                'secrectId'  => $this->secrectId,
-                'secrectKey' => $this->secrectKey,
+                'secretId'  => $this->secretId,
+                'secretKey' => $this->secretKey,
             ],
         ]);
     }
@@ -357,8 +357,8 @@ class QcloudAdapter extends AbstractAdapter
 // $config = new Config([
 //             'region' => 'sdfsa',
 //             'credentials' => [
-//                 'secrectId' => 'sdfsdf',
-//                 'secrectKey' => 'sdff',
+//                 'secretId' => 'sdfsdf',
+//                 'secretKey' => 'sdff',
 //             ],
 //         ]);
 // print_r($config->get('region'));die;
