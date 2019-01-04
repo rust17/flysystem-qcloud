@@ -2,8 +2,6 @@
 
 namespace Circle33\Flysystem\Qcloud;
 
-require __DIR__.'/../vendor/autoload.php';
-
 use League\Flysystem\Config;
 use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\Adapter\Polyfill\NotSupportingVisibilityTrait;
@@ -238,12 +236,16 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function has($path)
     {
-        $res = $this->client()->headObject([
-            'Bucket' => $this->bucket,
-            'Key' => $path,
-        ]);
+        try {
+            $result = $this->client()->headObject(array(
+                'Bucket' => $this->bucket,
+                'Key' => $path,
+            ));
 
-        return is_array($res);
+            return is_object($result);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
