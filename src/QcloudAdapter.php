@@ -87,7 +87,7 @@ class QcloudAdapter extends AbstractAdapter
             $bucket = $config->get('bucket');
         }
 
-        $arr = ['Bucket' => $bucket ?: $this->bucket, 'Key' => $path, 'Body' => fopen($resource, 'rb')];
+        $arr = ['Bucket' => $bucket ?: $this->bucket, 'Key' => $path, 'Body' => $resource];
 
         $this->client()->putObject($arr);
 
@@ -109,8 +109,6 @@ class QcloudAdapter extends AbstractAdapter
             $bucket = $config->get('bucket');
         }
 
-        $this->delete($bucket, $path);
-
         $this->write($path, $contents, $config);
 
         return true;
@@ -131,8 +129,6 @@ class QcloudAdapter extends AbstractAdapter
             $bucket = $config->get('bucket');
         }
 
-        $this->delete($bucket, $path);
-
         $this->writeStream($path, $resource, $config);
 
         return true;
@@ -150,7 +146,7 @@ class QcloudAdapter extends AbstractAdapter
     {
         $this->copy($path, $newpath);
 
-        $this->delete($this->bucket, $path);
+        $this->delete($path);
 
         return true;
     }
@@ -165,7 +161,7 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function copy($path, $newpath)
     {
-        $arr = ['Bucket' => $this->bucket, 'CopySource' => '{$this->bucket}.cos.{$this->region}.myqcloud.com/{$path}', 'Key' => $newpath];
+        $arr = ['Bucket' => $this->bucket, 'CopySource' => "{$this->bucket}.cos.{$this->region}.myqcloud.com/{$path}", 'Key' => $newpath];
 
         $this->client()->copyObject($arr);
 
@@ -262,12 +258,13 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function readStream($path)
     {
-        $result = $this->client()->getObject([
-            'Bucket' => $this->bucket,
-            'Key' => $path
-        ]);
+        if (ini_get('allow_url_fopen')) {
+            $stream = fopen('https://' . $this->bucket. '.cos.' . $this->region . '.myqcloud.com/' . $path, 'r');
 
-        return $result['Body'];
+            return compact("stream", "path");
+        }
+
+        return false;
     }
 
     /**
