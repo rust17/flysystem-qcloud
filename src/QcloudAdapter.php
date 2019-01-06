@@ -244,11 +244,13 @@ class QcloudAdapter extends AbstractAdapter
             'Bucket' => $this->bucket,
             'Key' => $path,
         ]);
+        $contentType = $object->get('ContentType');
+        $lastModified = $object->get('LastModified');
         $contentLength = $object->get('ContentLength');
         $meta = $object->get('MissingMeta');
         $contents = $object->get('Body')->__toString();
 
-        return compact('contents', 'path', 'meta', 'contentLength');
+        return compact('contents', 'path', 'meta', 'contentLength', 'lastModified', 'contentType');
     }
 
     /**
@@ -325,8 +327,8 @@ class QcloudAdapter extends AbstractAdapter
     public function getMimetype($path)
     {
         $result = $this->read($path);
-
-        return $result;
+        $mimetype = $result['contentType'];
+        return compact("mimetype");
     }
 
     /**
@@ -339,8 +341,8 @@ class QcloudAdapter extends AbstractAdapter
     public function getTimestamp($path)
     {
         $result = $this->read($path);
-
-        return $result['LastModified'];
+        $timestamp = $result['lastModified'];
+        return compact("timestamp");
     }
 
     /**
