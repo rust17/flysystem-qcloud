@@ -244,9 +244,11 @@ class QcloudAdapter extends AbstractAdapter
             'Bucket' => $this->bucket,
             'Key' => $path,
         ]);
+        $contentLength = $object->get('ContentLength');
+        $meta = $object->get('MissingMeta');
         $contents = $object->get('Body')->__toString();
 
-        return compact('contents', 'path');
+        return compact('contents', 'path', 'meta', 'contentLength');
     }
 
     /**
@@ -277,12 +279,12 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function listContents($directory = '', $recursive = false)
     {
-        $result = $this->client()->listObjects([
+        $object = $this->client()->listObjects([
             'Bucket' => $this->bucket,
             'Prefix' => $directory
         ]);
 
-        return $result;
+        return $object->get('Contents');
     }
 
     /**
@@ -309,8 +311,8 @@ class QcloudAdapter extends AbstractAdapter
     public function getSize($path)
     {
         $result = $this->read($path);
-
-        return $result['ContentLength'];
+        $size = $result['contentLength'];
+        return compact("size");
     }
 
     /**
