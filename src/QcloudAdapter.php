@@ -61,11 +61,7 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function write($path, $contents, Config $config)
     {
-        if ($config->has('bucket')) {
-            $bucket = $config->get('bucket');
-        }
-
-        $arr = ['Bucket' => $bucket ?: $this->bucket, 'Key' => $path, 'Body' => $contents];
+        $arr = ['Bucket' => $this->bucket, 'Key' => $path, 'Body' => $contents];
 
         $this->client()->putObject($arr);
 
@@ -83,11 +79,7 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function writeStream($path, $resource, Config $config)
     {
-        if ($config->has('bucket')) {
-            $bucket = $config->get('bucket');
-        }
-
-        $arr = ['Bucket' => $bucket ?: $this->bucket, 'Key' => $path, 'Body' => $resource];
+        $arr = ['Bucket' => $this->bucket, 'Key' => $path, 'Body' => $resource];
 
         $this->client()->putObject($arr);
 
@@ -105,10 +97,6 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function update($path, $contents, Config $config)
     {
-        if ($config->has('bucket')) {
-            $bucket = $config->get('bucket');
-        }
-
         $this->write($path, $contents, $config);
 
         return true;
@@ -125,10 +113,6 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function updateStream($path, $resource, Config $config)
     {
-        if ($config->has('bucket')) {
-            $bucket = $config->get('bucket');
-        }
-
         $this->writeStream($path, $resource, $config);
 
         return true;
