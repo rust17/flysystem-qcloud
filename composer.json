@@ -16,5 +16,12 @@
 		"psr-4": {
 			"Circle33\\Flysystem\\Qcloud\\": "src"
 		}
-	}
+	},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Circle33\\Flysystem\\QcloudServiceProvider"
+            ]
+        }
+    }
 }
