@@ -33,6 +33,16 @@ class QcloudServiceProvider extends ServiceProvider
     }
 
     /**
+     * Merge package configuration
+     *
+     * @return void
+     */
+    private function mergeConfiguration()
+    {
+        $this->mergeConfiguration(__DIR__ . '/../config/qcloud.php', 'qcloud');
+    }
+
+    /**
      * Register package routes.
      *
      * @return void
