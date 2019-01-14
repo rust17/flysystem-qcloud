@@ -3,6 +3,7 @@
 namespace Circle33\Flysystem\Qcloud;
 
 use Illuminate\Support\ServiceProvider;
+use Circle33\Flysystem\Qcloud\QcloudAdapter;
 
 class QcloudServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,8 @@ class QcloudServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfiguration();
+
+        $this->registerContainerBindingds();
     }
 
     /**
@@ -40,6 +43,18 @@ class QcloudServiceProvider extends ServiceProvider
     private function mergeConfiguration()
     {
         $this->mergeConfiguration(__DIR__ . '/../config/qcloud.php', 'qcloud');
+    }
+
+    /**
+     * Register package bindings in the container.
+     *
+     * @return void
+     */
+    private function registerContainerBindingds()
+    {
+        $this->app->singleton(QcloudAdapter::class, function ($app) {
+            return new QcloudAdapter(config('qcloud.secretId', config('qcloud.secretKey'), config('qcloud.bucket'), config('qcloud.region')));
+        });
     }
 
     /**
@@ -61,7 +76,7 @@ class QcloudServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/qcloud.php' => config_path('qcloud.php'),
-        ], 'config');
+        ]);
     }
 
     /**
