@@ -19,7 +19,7 @@ class QcloudServiceProvider extends ServiceProvider
 
         $this->publishConfiguration();
 
-        // $this->loadViews();
+        $this->loadViews();
 
         // $this->publishAssets();
     }

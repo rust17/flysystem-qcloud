@@ -9,6 +9,8 @@ class QcloudController extends Controller
 {
     public function index(Request $request)
     {
-        print_r('hello world');
+        $hello = 'hello world';
+
+        return view('qcloud::qclouds.index', compact('hello'));
     }
 }
