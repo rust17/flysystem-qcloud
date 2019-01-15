@@ -1,0 +1,28 @@
+{
+  "name": "flysystem-qcloud",
+  "version": "1.0.0",
+  "description": "A package for qcloud oss management",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github:rust17/flysystem-qcloud.git"
+  },
+  "keywords": [
+    "qcloud",
+    "oss"
+  ],
+  "author": "circle",
+  "license": "MIT",
+  "devDependencies": {
+    "laravel-mix": "^2.1.14",
+    "postcss": "^7.0.2",
+    "tailwindcss": "^0.6.5"
+  },
+  "dependencies": {
+    "axios": "^0.18",
+    "vue": "^2.5.17"
+  }
+}
