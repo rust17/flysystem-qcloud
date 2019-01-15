@@ -7,6 +7,7 @@ use Circle33\Flysystem\Qcloud\QcloudAdapter;
 
 class QcloudServiceProvider extends ServiceProvider
 {
+    protected $defer = true;
     /**
      * Bootstrap the package service.
      *
@@ -18,9 +19,9 @@ class QcloudServiceProvider extends ServiceProvider
 
         $this->publishConfiguration();
 
-        $this->loadViews();
+        // $this->loadViews();
 
-        $this->publishAssets();
+        // $this->publishAssets();
     }
 
     /**
@@ -42,7 +43,7 @@ class QcloudServiceProvider extends ServiceProvider
      */
     private function mergeConfiguration()
     {
-        $this->mergeConfiguration(__DIR__ . '/../config/qcloud.php', 'qcloud');
+        $this->mergeConfigFrom(__DIR__ . '/../config/qcloud.php', 'qcloud');
     }
 
     /**
@@ -53,7 +54,7 @@ class QcloudServiceProvider extends ServiceProvider
     private function registerContainerBindingds()
     {
         $this->app->singleton(QcloudAdapter::class, function ($app) {
-            return new QcloudAdapter(config('qcloud.secretId', config('qcloud.secretKey'), config('qcloud.bucket'), config('qcloud.region')));
+            return new QcloudAdapter($this->app['config']['qcloud']['secretId'], $this->app['config']['qcloud']['secretKey'], $this->app['config']['qcloud']['bucket'], $this->app['config']['qcloud']['region']);
         });
     }
 
@@ -76,7 +77,7 @@ class QcloudServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/qcloud.php' => config_path('qcloud.php'),
-        ]);
+        ], 'config');
     }
 
     /**

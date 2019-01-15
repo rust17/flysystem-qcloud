@@ -20,7 +20,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Circle33\\Flysystem\\QcloudServiceProvider"
+                "Circle33\\Flysystem\\Qcloud\\QcloudServiceProvider"
             ]
         }
     }
