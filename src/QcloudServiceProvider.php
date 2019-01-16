@@ -7,7 +7,6 @@ use Circle33\Flysystem\Qcloud\QcloudAdapter;
 
 class QcloudServiceProvider extends ServiceProvider
 {
-    protected $defer = true;
     /**
      * Bootstrap the package service.
      *
@@ -89,9 +88,9 @@ class QcloudServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'qcloud');
 
-        $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/qcloud'),
-        ]);
+        // $this->publishes([
+        //     __DIR__ . '/../resources/views' => resource_path('views/vendor/qcloud'),
+        // ]);
     }
 
     /**

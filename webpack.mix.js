@@ -12,7 +12,7 @@ var tailwindcss = require('tailwindcss');
  |
  */
 
-mix.js('src/app.js', 'dist/').sass('src/app.scss', 'dist/');
+mix.setPublicPath('public/assets');
 
 mix.postCss('resources/assets/css/main.css', 'css', [
   tailwindcss('./tailwind.js'),

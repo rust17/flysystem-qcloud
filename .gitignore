@@ -6,5 +6,6 @@ composer.lock
 .subsplit
 .php_cs.cache
 /node_modules
+/public/assets/
 package-lock.json
 yarn.lock
