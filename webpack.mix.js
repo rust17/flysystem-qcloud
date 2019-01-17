@@ -16,7 +16,7 @@ mix.setPublicPath('public/assets');
 
 mix.postCss('resources/assets/css/main.css', 'css', [
   tailwindcss('./tailwind.js'),
-]);
+]).js('resources/assets/js/app.js', 'js');
 
 // Full API
 // mix.js(src, output);
