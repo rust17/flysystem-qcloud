@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    <div id="app container mx-auto">
+    <div id="app">
 
         @include('qcloud::nav')
 
