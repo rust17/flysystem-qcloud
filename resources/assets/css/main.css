@@ -60,3 +60,11 @@
  * @import "utilities/background-patterns";
  * @import "utilities/skew-transforms";
  */
+
+ nav.header {
+    @apply w-full flex bg-white border-b border-green fixed pin-t h-16 items-center
+ }
+
+ nav a {
+    @apply block text-indigo-light items-center mr-6 no-underline
+ }
