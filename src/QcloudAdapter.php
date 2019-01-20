@@ -269,8 +269,12 @@ class QcloudAdapter extends AbstractAdapter
             'Bucket' => $this->bucket,
             'Prefix' => $directory
         ]);
+        $contents = $object->get('Contents');
+        array_walk($contents, function (&$_content) {
+            $_content['path'] = $_content['Key'];
+        });
 
-        return $object->get('Contents');
+        return $contents;
     }
 
     /**
