@@ -40,5 +40,6 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('list-contents', require('./components/ListContents.vue'));
 
 
