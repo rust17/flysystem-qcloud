@@ -2,8 +2,10 @@
 
 namespace Circle33\Flysystem\Qcloud;
 
+use Storage;
 use Illuminate\Support\ServiceProvider;
 use Circle33\Flysystem\Qcloud\QcloudAdapter;
+use League\Flysystem\Filesystem;
 
 class QcloudServiceProvider extends ServiceProvider
 {
@@ -52,8 +54,12 @@ class QcloudServiceProvider extends ServiceProvider
      */
     private function registerContainerBindingds()
     {
-        $this->app->singleton(QcloudAdapter::class, function ($app) {
-            return new QcloudAdapter($this->app['config']['qcloud']['secretId'], $this->app['config']['qcloud']['secretKey'], $this->app['config']['qcloud']['bucket'], $this->app['config']['qcloud']['region']);
+        Storage::extend('qcloud_oss', function ($app, $config) {
+            $adapter    = new QcloudAdapter($config['secretId'], $config['secretKey'], $config['bucket'], $config['region']);
+
+            $filesystem = new Filesystem($adapter);
+
+            return $filesystem;
         });
     }
 

@@ -19,7 +19,6 @@ $secretId  = 'xxxxxx';
 $secretKey = 'xxxxxx';
 $bucket    = 'xxxxxx';
 $region    = 'xxxxxx';
-$appId     = 'xxxxxx';
 
 $adapter = new QcloudAdapter($secretId, $secretKey, $bucket, $region);
 
