@@ -1,7 +1,7 @@
 <template>
   <div class="list-contents">
     <div class="">
-      <input type="text" name="path" value="this.path" v-on:change="handleFiles()" />
+      <input type="text" name="path" v-model="path" v-on:change="handleFiles()">
     </div>
     <div class="">
       <table>
@@ -26,37 +26,32 @@
 
 <script>
 export default {
+  props: ['route'],
   name: 'ListContents',
-  props: {
-    initValue: {
-      type: Array,
-      default: () => ({}),
-    }
-  },
   data() {
     return {
-      path: this.path
+      path: '',
       files: [
         {
-          filename: example,
+          filename: 'example',
           size: '358939',
           lastModified: '2019-01-06T08:58:44.000Z',
           extension: 'jpg'
         },
         {
-          filename: example,
+          filename: 'example',
           size: '358939',
           lastModified: '2019-01-06T08:58:44.000Z',
           extension: 'jpg'
         },
         {
-          filename: example,
+          filename: 'example',
           size: '358939',
           lastModified: '2019-01-06T08:58:44.000Z',
           extension: 'jpg'
         },
         {
-          filename: example,
+          filename: 'example',
           size: '358939',
           lastModified: '2019-01-06T08:58:44.000Z',
           extension: 'jpg'
@@ -64,16 +59,18 @@ export default {
       ]
     }
   },
-  created() {
-    this.fetch()
+  // created() {
+  //   this.fetch()
+  // },
+  beforeCreate() {
+    this.basicUrl = 'list_contents';
   },
   methods: {
     fetch(page = 1) {
-      axios.get(this.path + page)
-        .then(({data}) => {});
+      axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
     },
     handleFiles() {
-      let path = this.$refs.
+      axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
     }
   }
 }

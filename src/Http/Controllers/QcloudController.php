@@ -11,6 +11,11 @@ class QcloudController extends Controller
     {
         $hello = 'hello world';
 
-        return view('qcloud::qclouds.index', compact('hello'));
+        return view('qcloud::qcloud.index', compact('hello'));
+    }
+
+    public function listContents(Request $request)
+    {
+        print_r('hello world');die;
     }
 }
