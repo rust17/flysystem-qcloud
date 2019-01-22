@@ -25,6 +25,25 @@ $adapter = new QcloudAdapter($secretId, $secretKey, $bucket, $region);
 $flysystem = new League\Flysystem\Filesystem($adapter);
 ```
 
+Use in laravel
+
+Add config to your fliesystems.php
+```php
+'disks' => [
+    ...
+    'qcloud_oss' => [
+        'driver'    => 'qcloud_oss',
+        'region'    => env('QCLOUDREGION', ''),
+        'secretId'  => env('QCLOUDSECRETID', ''),
+        'secretKey' => env('QCLOUDSECRETKEY', ''),
+        'bucket'    => env('QCLOUDBUCKET', ''),
+    ],
+    ...
+],
+
+$filesystem = Storage::disk('qcloud_oss');
+```
+
 ### API
 
 TODO
