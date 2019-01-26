@@ -1,7 +1,7 @@
 <template>
-  <div class="list-contents">
-    <div class="">
-      <input type="text" name="path" v-model="path" v-on:change="handleFiles()">
+  <div class="list-contents absolute pin overflow-auto pt-16 pb-4">
+    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-2 mb-3 leading-tight pin-r focus:outline-none focus:bg-white" placeholder="enter your path" type="text" name="path" v-model="path" v-on:change="handleFiles()">
     </div>
     <div class="">
       <table>

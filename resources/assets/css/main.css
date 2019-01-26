@@ -62,7 +62,7 @@
  */
 
  nav.header {
-    @apply w-full flex bg-white border-b border-green fixed pin-t h-16 items-center
+    @apply w-full flex bg-white border-b border-green absolute pin-t h-16 items-center
  }
 
  nav a {
