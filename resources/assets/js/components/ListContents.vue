@@ -1,7 +1,18 @@
 <template>
   <div class="list-contents absolute pin overflow-auto pt-16 pb-4">
-    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-2 mb-3 leading-tight pin-r focus:outline-none focus:bg-white" placeholder="enter your path" type="text" name="path" v-model="path" v-on:change="handleFiles()">
+    <div class="flex flex-wrap -mx-3 mb-3 mt-3">
+      <div class="w-full md:w-1/6 px-3 ml-6">
+        <div class="relative">
+          <select class="block w-full bg-white border border-grey-light hover:border-grey px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+            <option v-for="item in options" value="item.value">{{ item.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="w-full md:w-1/3 px-3">
+        <div class="relative">
+          <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-2 mb-3 leading-tight pin-r focus:outline-none focus:bg-white" placeholder="enter your path" type="text" name="path" v-model="path" v-on:change="handleFiles()">
+        </div>
+      </div>
     </div>
     <div class="">
       <table>
@@ -31,6 +42,16 @@ export default {
   data() {
     return {
       path: '',
+      options: [
+        {
+          name: 'path',
+          value: 1
+        },
+        {
+          name: 'filename',
+          value: 2
+        }
+      ],
       files: [
         {
           filename: 'example',
