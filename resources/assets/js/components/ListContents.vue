@@ -1,6 +1,6 @@
 <template>
   <div class="list-contents absolute pin overflow-auto pt-16 pb-4">
-    <div class="flex flex-wrap -mx-3 mb-3 mt-3">
+    <div class="flex flex-wrap justify-center -mx-3 mb-3 mt-3">
       <div class="w-full md:w-1/6 px-3 ml-6">
         <div class="relative">
           <select class="block w-full bg-white border border-grey-light hover:border-grey px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
@@ -14,8 +14,15 @@
         </div>
       </div>
     </div>
-    <div class="">
-      <table>
+    <div class="w-full">
+      <table class="w-full max-w-full text-center">
+        <colgroup>
+          <col>
+          <col>
+          <col>
+          <col>
+          <col>
+        </colgroup>
         <tr>
           <th>ID</th>
           <th>文件名</th>
@@ -44,11 +51,11 @@ export default {
       path: '',
       options: [
         {
-          name: 'path',
+          name: 'list contents',
           value: 1
         },
         {
-          name: 'filename',
+          name: 'has file',
           value: 2
         }
       ],
