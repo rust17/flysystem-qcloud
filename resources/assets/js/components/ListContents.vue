@@ -1,5 +1,5 @@
 <template>
-  <div class="list-contents absolute pin overflow-auto pt-16 pb-4">
+  <div class="list-contents pin overflow-y-auto overflow-x-hidden pb-4">
     <div class="flex flex-wrap justify-center -mx-3 mb-3 mt-3">
       <div class="w-full md:w-1/6 px-3 ml-6">
         <div class="relative">
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="w-full">
-      <table class="w-full max-w-full text-center">
+      <table class="w-full max-w-full text-center border">
         <colgroup>
           <col>
           <col>
@@ -104,3 +104,6 @@ export default {
 }
 </script>
 
+<style scoped>
+th, td { padding: 20px; border: 1px solid #dae1e7; }
+</style>
