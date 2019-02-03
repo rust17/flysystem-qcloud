@@ -29,6 +29,7 @@
           <th>大小</th>
           <th>最后修改时间</th>
           <th>文件类型</th>
+          <th>操作</th>
         </tr>
         <tr v-for="(file, key) in files">
           <td>{{ key }}</td>
@@ -36,6 +37,14 @@
           <td>{{ file.size }}</td>
           <td>{{ file.lastModified }}</td>
           <td>{{ file.extension }}</td>
+          <td>
+            <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">
+              copy
+            </button>
+            <button class="bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white py-2 px-4 hover:border-transparent rounded">
+              delete
+            </button>
+          </td>
         </tr>
       </table>
     </div>
