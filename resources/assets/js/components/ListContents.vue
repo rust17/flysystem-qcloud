@@ -3,8 +3,8 @@
     <div class="flex flex-wrap justify-center -mx-3 mb-3 mt-3">
       <div class="w-full md:w-1/6 px-3 ml-6">
         <div class="relative">
-          <select class="block w-full bg-white border border-grey-light hover:border-grey px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-            <option v-for="item in options" value="item.value">{{ item.name }}</option>
+          <select class="block w-full bg-white border border-grey-light hover:border-grey px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" v-model="selected">
+            <option v-for="item in options" v-bind:value="item.value">{{ item.name }}</option>
           </select>
         </div>
       </div>
@@ -48,6 +48,7 @@ export default {
   name: 'ListContents',
   data() {
     return {
+      selected: 1,
       path: '',
       options: [
         {
@@ -87,6 +88,13 @@ export default {
       ]
     }
   },
+  watch: {
+    selected(value) {
+      if (value) {
+        this.path = ''
+      }
+    }
+  },
   // created() {
   //   this.fetch()
   // },
@@ -98,7 +106,8 @@ export default {
       axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
     },
     handleFiles() {
-      axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
+      return ;
+      // axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
     }
   }
 }
