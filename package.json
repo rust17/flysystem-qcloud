@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "axios": "^0.18",
+    "sweetalert": "^2.1.2",
     "vue": "^2.5.17"
   }
 }

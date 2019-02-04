@@ -38,7 +38,7 @@
           <td>{{ file.lastModified }}</td>
           <td>{{ file.extension }}</td>
           <td>
-            <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">
+            <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" @click="alertCopy()">
               copy
             </button>
             <button class="bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white py-2 px-4 hover:border-transparent rounded">
@@ -117,6 +117,17 @@ export default {
     handleFiles() {
       return ;
       // axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
+    },
+    alertCopy() {
+      swal({
+        title: "确定复制该文件？",
+        type: "info",
+        showCancelButton: true,
+        closeOnConfirm: true
+      })
+        .then(() => {
+          console.log('click yes');
+        });
     }
   }
 }
