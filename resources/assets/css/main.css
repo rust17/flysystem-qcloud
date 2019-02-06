@@ -68,3 +68,7 @@
  nav a {
     @apply block text-indigo-light items-center mr-6 no-underline
  }
+
+ .panel {
+    @apply pin overflow-y-auto overflow-x-hidden pb-4
+ }

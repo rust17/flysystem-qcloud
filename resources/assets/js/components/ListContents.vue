@@ -1,5 +1,5 @@
 <template>
-  <div class="list-contents pin overflow-y-auto overflow-x-hidden pb-4">
+  <div class="panel">
     <div class="flex flex-wrap justify-center -mx-3 mb-3 mt-3">
       <div class="w-full md:w-1/6 px-3 ml-6">
         <div class="relative">
