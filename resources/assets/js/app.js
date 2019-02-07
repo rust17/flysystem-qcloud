@@ -42,6 +42,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('list-contents', require('./components/ListContents.vue'));
+Vue.component('file-detail', require('./components/FileDetail.vue'));
 
 const app = new Vue({
   el: '#app'

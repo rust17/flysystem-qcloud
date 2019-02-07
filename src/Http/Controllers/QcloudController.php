@@ -25,8 +25,8 @@ class QcloudController extends Controller
         return $this->storage->listContents('/', false);
     }
 
-    // public function read()
-    // {
-    //     return $this->
-    // }
+    public function index()
+    {
+        return $this->
+    }
 }

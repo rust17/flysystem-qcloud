@@ -33,7 +33,7 @@
         </tr>
         <tr v-for="(file, key) in files">
           <td>{{ key }}</td>
-          <td>{{ file.filename }}</td>
+          <td><a :href="`/${route}/file/${file.id}`">{{ file.filename }}</a></td>
           <td>{{ file.size }}</td>
           <td>{{ file.lastModified }}</td>
           <td>{{ file.extension }}</td>
@@ -74,25 +74,29 @@ export default {
           filename: 'example',
           size: '358939',
           lastModified: '2019-01-06T08:58:44.000Z',
-          extension: 'jpg'
+          extension: 'jpg',
+          id: 1
         },
         {
           filename: 'example',
           size: '358939',
           lastModified: '2019-01-06T08:58:44.000Z',
-          extension: 'jpg'
+          extension: 'jpg',
+          id: 1
         },
         {
           filename: 'example',
           size: '358939',
           lastModified: '2019-01-06T08:58:44.000Z',
-          extension: 'jpg'
+          extension: 'jpg',
+          id: 1
         },
         {
           filename: 'example',
           size: '358939',
           lastModified: '2019-01-06T08:58:44.000Z',
-          extension: 'jpg'
+          extension: 'jpg',
+          id: 1
         },
       ]
     }
