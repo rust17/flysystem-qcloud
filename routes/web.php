@@ -7,5 +7,5 @@ Route::group(['middleware' => 'web'] + ['namespace' => 'Circle33\\Flysystem\\Qcl
         ->name('qcloud.index');
     $router->get(config('qcloud.ui_url') . '/list_contents/{path}', 'QcloudController@listContents')
         ->name('qcloud.files');
-    $router->get(config('qcloud.ui_url') . '/file/{file}', 'QcloudController@index')->name('qcloud.file.index');
+    $router->get(config('qcloud.ui_url') . '/file/{file}', 'QcloudController@show')->name('qcloud.file.show');
 });
