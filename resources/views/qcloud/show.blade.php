@@ -1,5 +1,5 @@
 @extends('qcloud::layout')
 
 @section('content')
-<list-contents route="{{ config('qcloud.ui_url') }}"></list-contents>
+<file-show route="{{ config('qcloud.ui_url') }}"></file-show>
 @endsection
