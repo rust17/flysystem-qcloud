@@ -5,9 +5,7 @@
     </div>
     <div class="lg:w-3/4">
       <div class="w-full flex justify items-center">
-        <a href="#" class="hover:text-grey-darker">文件列表</a>
-        <a href="#" class="hover:text-grey-darker">占位</a>
-        <a href="#" class="hover:text-grey-darker">占位</a>
+
       </div>
     </div>
   </div>
