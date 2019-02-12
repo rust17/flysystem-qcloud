@@ -13,6 +13,12 @@
           <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-2 mb-3 leading-tight pin-r focus:outline-none focus:bg-white" placeholder="enter your path" type="text" name="path" v-model="path" v-on:change="handleFiles()">
         </div>
       </div>
+      <div class="w-full md:w-1/6 px-3 ml-6">
+        <div class="relative">
+          <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" @click="">upload file</button>
+          <input class="hidden" type="file" id="file" ref="file" multiple>
+        </div>
+      </div>
     </div>
     <div class="w-full">
       <table class="w-full max-w-full text-center border">
