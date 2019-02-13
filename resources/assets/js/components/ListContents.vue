@@ -10,13 +10,13 @@
       </div>
       <div class="w-full md:w-1/3 px-3">
         <div class="relative">
-          <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-2 mb-3 leading-tight pin-r focus:outline-none focus:bg-white" placeholder="enter your path" type="text" name="path" v-model="path" v-on:change="handleFiles()">
+          <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-2 mb-3 leading-tight pin-r focus:outline-none focus:bg-white" placeholder="enter your path" type="text" name="path" v-model="path" v-on:change="handlePath()">
         </div>
       </div>
       <div class="w-full md:w-1/6 px-3 ml-6">
         <div class="relative">
-          <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" @click="">upload file</button>
-          <input class="hidden" type="file" id="file" ref="file" multiple>
+          <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" @click="alertUpload()">upload file</button>
+          <input class="hidden" type="file" id="file" ref="file" multiple v-on:change="handleFiles()">
         </div>
       </div>
     </div>
@@ -124,7 +124,7 @@ export default {
     fetch(page = 1) {
       axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
     },
-    handleFiles() {
+    handlePath() {
       return ;
       // axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
     },
@@ -138,6 +138,13 @@ export default {
         .then(() => {
           console.log('click yes');
         });
+    },
+    alertUpload() {
+      document.getElementById('file').click();
+    },
+    handleFiles() {
+      let uploadFiles = this.$refs.file.files;
+      console.log(uploadFiles);
     }
   }
 }
