@@ -39,7 +39,7 @@
         </tr>
         <tr v-for="(file, key) in files">
           <td>{{ key }}</td>
-          <td><a :href="`/${route}/file/${file.id}`">{{ file.filename }}</a></td>
+          <td><a :href="`/${route}/file/${file.id}`" class="no-underline text-blue">{{ file.filename }}</a></td>
           <td>{{ file.size }}</td>
           <td>{{ file.lastModified }}</td>
           <td>{{ file.extension }}</td>
