@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'ui_url' => 'qcloud',
+    'ui_url' => 'circle33_qcloud',
+    'api_url' => 'circle33_qcloud',
 ];
