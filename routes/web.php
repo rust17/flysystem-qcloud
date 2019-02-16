@@ -6,7 +6,7 @@ $configUiUrl = config('circle33_qcloud.ui_url');
 
 Route::group([
     'middleware' => 'web',
-    'namespace' => 'Circle33\\Flysystem\\Qcloud\\Http\\Controllers'
+    'namespace'  => 'Circle33\\Flysystem\\Qcloud\\Http\\Controllers'
 ], function ($router) use ($configUiUrl) {
     $router->get($configUiUrl, 'QcloudController@index')
         ->name('qcloud.index');

@@ -10,11 +10,11 @@ $configApiUrl = config('circle33_qcloud.api_url');
 
 Route::group([
     'middleware' => 'api',
-    'namespace' => 'Circle33\\Flysystem\\Qcloud\\Http\\Controllers'
+    'namespace'  => 'Circle33\\Flysystem\\Qcloud\\Http\\Controllers'
 ], function ($router) use ($configApiUrl) {
-    $router->get($configApiUrl . '/listContents/{directory}', 'FilesController@index')
+    $router->get($configApiUrl . '/list_contents/{directory}', 'FilesController@index')
         ->name('qcloud.api.files.index');
-    $router->get($configApiUrl . '/hasFile/{path}', 'FilesController@has')
+    $router->get($configApiUrl . '/has_file/{path}', 'FilesController@hasFile')
         ->name('qcloud.api.files.has');
     $router->get($configApiUrl . '/read/{path}', 'FilesController@show')
         ->name('qcloud.api.flies.show');
@@ -24,6 +24,6 @@ Route::group([
         ->name('qcloud.api.files.rename');
     $router->delete($configApiUrl . '/files/{path}', 'FilesController@destroy')
         ->name('qcloud.api.files.destroy');
-    $router->post($configApiUrl . '/filesCopy/{path}', 'FilesController@copy')
+    $router->post($configApiUrl . '/files_copy/{path}', 'FilesController@copy')
         ->name('qcloud.api.files.copy');
 });
