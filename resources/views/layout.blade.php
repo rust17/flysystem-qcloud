@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Flysystem-Qcloud-User-Interface') }}</title>
 
     <!-- styles -->
-    <link rel="stylesheet" href="{{ asset("vendor/qcloud/css/main.css") }}">
+    <link rel="stylesheet" href="{{ asset("vendor/circle33_qcloud/css/main.css") }}">
 </head>
 <body>
 
@@ -23,6 +23,6 @@
     </div>
 
     <!-- scripts -->
-    <script src="{{ asset("vendor/qcloud/js/app.js") }}"></script>
+    <script src="{{ asset("vendor/circle33_qcloud/js/app.js") }}"></script>
 </body>
 </html>

@@ -44,7 +44,7 @@ class QcloudServiceProvider extends ServiceProvider
      */
     private function mergeConfiguration()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/qcloud.php', 'qcloud');
+        $this->mergeConfigFrom(__DIR__ . '/../config/qcloud.php', 'circle33_qcloud');
     }
 
     /**
@@ -82,7 +82,7 @@ class QcloudServiceProvider extends ServiceProvider
     public function publishConfiguration()
     {
         $this->publishes([
-            __DIR__ . '/../config/qcloud.php' => config_path('qcloud.php'),
+            __DIR__ . '/../config/qcloud.php' => config_path('circle33_qcloud.php'),
         ], 'config');
     }
 
@@ -96,7 +96,7 @@ class QcloudServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'qcloud');
 
         // $this->publishes([
-        //     __DIR__ . '/../resources/views' => resource_path('views/vendor/qcloud'),
+        //     __DIR__ . '/../resources/views' => resource_path('views/vendor/circle33_qcloud'),
         // ]);
     }
 
@@ -108,7 +108,7 @@ class QcloudServiceProvider extends ServiceProvider
     public function publishAssets()
     {
         $this->publishes([
-            __DIR__ . '/../public/assets' => public_path('vendor/qcloud'),
+            __DIR__ . '/../public/assets' => public_path('vendor/circle33_qcloud'),
         ], 'assets');
     }
 }

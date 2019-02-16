@@ -6,19 +6,24 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-Type, Access-Control-Allow-Headers, X-Requested-With');
 header('Access-Control-Allow-Methods: *');
 
-Route::group(['middleware' => 'api'] + ['namespace' => 'Circle33\\Flysystem\\Qcloud\\Http\\Controllers'], function ($router) {
-    $router->get(config('qcloud.api_url') . '/listContents/{directory}', 'FilesController@index')
+$configApiUrl = config('circle33_qcloud.api_url');
+
+Route::group([
+    'middleware' => 'api',
+    'namespace' => 'Circle33\\Flysystem\\Qcloud\\Http\\Controllers'
+], function ($router) use ($configApiUrl) {
+    $router->get($configApiUrl . '/listContents/{directory}', 'FilesController@index')
         ->name('qcloud.api.files.index');
-    $router->get(config('qcloud.api_url') . '/hasFile/{path}', 'FilesController@has')
+    $router->get($configApiUrl . '/hasFile/{path}', 'FilesController@has')
         ->name('qcloud.api.files.has');
-    $router->get(config('qcloud.api_url') . '/read/{path}', 'FilesController@show')
+    $router->get($configApiUrl . '/read/{path}', 'FilesController@show')
         ->name('qcloud.api.flies.show');
-    $router->post(config('qcloud.api_url') . '/files', 'FilesController@store')
+    $router->post($configApiUrl . '/files', 'FilesController@store')
         ->name('qcloud.api.files.store');
-    $router->patch(config('qcloud.api_url') . '/files', 'FilesController@rename')
+    $router->patch($configApiUrl . '/files', 'FilesController@rename')
         ->name('qcloud.api.files.rename');
-    $router->delete(config('qcloud.api_url') . '/files/{path}', 'FilesController@destroy')
+    $router->delete($configApiUrl . '/files/{path}', 'FilesController@destroy')
         ->name('qcloud.api.files.destroy');
-    $router->post(config('qcloud.api_url') . '/filesCopy/{path}', 'FilesController@copy')
+    $router->post($configApiUrl . '/filesCopy/{path}', 'FilesController@copy')
         ->name('qcloud.api.files.copy');
 });

@@ -15,9 +15,7 @@ class QcloudController extends Controller
 
     public function index(Request $request)
     {
-        $hello = 'hello world';
-
-        return view('qcloud::qcloud.index', compact('hello'));
+        return view('qcloud::qcloud.index');
     }
 
     public function show()
