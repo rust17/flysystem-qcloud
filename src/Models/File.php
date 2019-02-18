@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Circle33\Flysystem\Qcloud\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
