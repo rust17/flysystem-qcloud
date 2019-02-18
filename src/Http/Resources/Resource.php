@@ -16,4 +16,11 @@ class Resource extends JsonResource
     {
         return parent::toArray($request);
     }
+
+    public static function collection($resource)
+    {
+        $resource->loadMissing(self::getRequestIncludes());
+
+        return parent::collection($resource);
+    }
 }

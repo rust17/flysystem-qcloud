@@ -3,6 +3,7 @@
 namespace Circle33\Flysystem\Qcloud\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Circle33\Flysystem\Qcloud\Models\File;
 use Circle33\Flysystem\Qcloud\Http\Resoreces\FileResource;
 
 class FilesController extends ApiController
@@ -15,7 +16,8 @@ class FilesController extends ApiController
     public function index(Request $request)
     {
         if ($directory = $request->get('directory')) {
-            return new FileResource($this->storage->listContents($directory));
+            $files = File::query()->where('path', $directory)->get();
+            return FileResource::collection($files);
         }
 
         \abort(404);
@@ -23,8 +25,8 @@ class FilesController extends ApiController
 
     public function exists(Request $request)
     {
-        if ($path = $request->get('path')) {
-            return ['success' => $this->storage->has($path)];
+        if ($filename = $request->get('filename')) {
+            return ['exists' => File::query()->where('filename', $filename)->exists()];
         }
 
         \abort(404);
