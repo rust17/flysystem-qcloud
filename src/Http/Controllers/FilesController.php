@@ -3,32 +3,63 @@
 namespace Circle33\Flysystem\Qcloud\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Circle33\Flysystem\Qcloud\Http\Resoreces\FileResource;
 
 class FilesController extends ApiController
 {
-    public function index()
+    public function __construct()
     {
-        return 'hello world';
+        $this->storage = Storage::disk('qcloud_oss');
     }
 
-    public function hasFile()
+    public function index(Request $request)
     {
-        return 'hello world';
+        if ($directory = $request->get('directory')) {
+            return new FileResource($this->storage->listContents($directory));
+        }
+
+        \abort(404);
     }
 
-    public function show()
+    public function exists(Request $request)
     {
-        return 'hello world';
+        if ($path = $request->get('path')) {
+            return ['success' => $this->storage->has($path)];
+        }
+
+        \abort(404);
     }
 
-    public function store()
+    public function show(Request $request)
     {
-        return 'hello world';
+        if ($path = $request->read('path')) {
+            return [];
+        }
+
+        \abort(404);
     }
 
-    public function rename()
+    public function store(Request $request)
     {
-        return 'hello world';
+        $request->validate([
+            'path' => '',
+            'body' => '',
+        ]);
+
+        $this->storage->write($request->get('path'), $request->get('body'));
+
+        return response()->json([
+            'message' => '文件存储成功！'
+        ]);
+    }
+
+    public function rename(File $file, Request $request)
+    {
+        if ($newpath = $request->get('newpath')) {
+            $this->storage->rename($file->name, $newpath);
+        }
+
+        \abort(404);
     }
 
     public function destroy()
