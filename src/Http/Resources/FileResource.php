@@ -2,6 +2,8 @@
 
 namespace Circle33\Flysystem\Qcloud\Http\Resources;
 
+use Illuminate\Http\Resources\Json\Resource;
+
 class FileResource extends Resource
 {
     /**

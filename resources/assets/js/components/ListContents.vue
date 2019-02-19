@@ -10,7 +10,10 @@
       </div>
       <div class="w-full md:w-1/3 px-3">
         <div class="relative">
-          <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-2 mb-3 leading-tight pin-r focus:outline-none focus:bg-white" placeholder="enter your path" type="text" name="path" v-model="path" v-on:change="handlePath()">
+          <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-2 mb-3 leading-tight pin-r focus:outline-none focus:bg-white" placeholder="enter your path" type="text" name="path" v-model="path">
+          <div class="absolute pin-y pin-r pr-3 flex items-center cursor-pointer" @click="search()">
+            <svg class="fill-current pointer-events-none text-grey-dark w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path></svg>
+          </div>
         </div>
       </div>
       <div class="w-full md:w-1/6 px-3 ml-6">
@@ -114,19 +117,19 @@ export default {
       }
     }
   },
-  // created() {
-  //   this.fetch()
-  // },
-  beforeCreate() {
-    this.basicUrl = 'list_contents';
+  created() {
+    this.fetch()
   },
   methods: {
     fetch(page = 1) {
-      axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
+      axios.get(`/${this.route}/list_contents?directory=/&page=` + page).then(({data}) => {})
     },
-    handlePath() {
-      return ;
-      // axios.get(`/${this.route}/${this.basicUrl}/${this.path}` + page).then(({data}) => {})
+    search() {
+      if (this.selected === 1) {
+        axios.get(`/${this.route}/list_contents?directory=${this.path}&page=1`).then(({data}) => {})
+      } else if (this.selected === 2) {
+        axios.get(`/${this.route}/exists?filename=${this.path}`).then(({data}) => {})
+      }
     },
     alertCopy() {
       swal({

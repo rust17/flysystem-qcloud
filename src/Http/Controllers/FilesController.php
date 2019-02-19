@@ -2,9 +2,10 @@
 
 namespace Circle33\Flysystem\Qcloud\Http\Controllers;
 
+use Storage;
 use Illuminate\Http\Request;
 use Circle33\Flysystem\Qcloud\Models\File;
-use Circle33\Flysystem\Qcloud\Http\Resoreces\FileResource;
+use Circle33\Flysystem\Qcloud\Http\Resources\FileResource;
 
 class FilesController extends ApiController
 {
@@ -16,7 +17,7 @@ class FilesController extends ApiController
     public function index(Request $request)
     {
         if ($directory = $request->get('directory')) {
-            $files = File::query()->where('path', $directory)->get();
+            $files = File::query()->where('path', $directory)->paginate();
             return FileResource::collection($files);
         }
 
@@ -34,8 +35,9 @@ class FilesController extends ApiController
 
     public function show(Request $request)
     {
-        if ($path = $request->read('path')) {
-            return [];
+        if ($filename = $request->get('filename')) {
+            $file = File::query()->where('filename', $filename)->get();
+            return FileResource::toArray($file);
         }
 
         \abort(404);
@@ -50,6 +52,11 @@ class FilesController extends ApiController
 
         $this->storage->write($request->get('path'), $request->get('body'));
 
+        $file = File::create([
+            'filename' => $request->get('path'),
+            ''
+        ]);
+
         return response()->json([
             'message' => '文件存储成功！'
         ]);
@@ -57,20 +64,39 @@ class FilesController extends ApiController
 
     public function rename(File $file, Request $request)
     {
-        if ($newpath = $request->get('newpath')) {
-            $this->storage->rename($file->name, $newpath);
+        if (File::query()->find($file->id)) {
+            $newFilename = $request->get('newFilename');
+            $file->update(['filename' => $newFilename]);
+            $this->storage->rename($file->filename, $newFilename);
         }
 
         \abort(404);
     }
 
-    public function destroy()
+    public function destroy(File $file)
     {
-        return 'hello world';
+        if (File::query()->find($file->id)) {
+            $file->delete();
+            $this->storage->delete($file->filename);
+        }
+
+        \abort(404);
     }
 
-    public function copy()
+    public function copy(File $file, Request $request)
     {
-        return 'hello world';
+        if (File::query()->find($file->id)) {
+            $newFilename = $request->get('newFilename');
+            $newFile = File::create([
+                'filename' => $newFilename,
+                'size'     => $file->size,
+                'path'     => $file->path,
+                'mime'     => $file->mime,
+                'url'      => ''
+            ]);
+            $this->storage->copy($file->filename, $newFilename);
+        }
+
+        \abort(404);
     }
 }
