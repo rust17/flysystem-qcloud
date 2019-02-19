@@ -23,6 +23,8 @@ class QcloudServiceProvider extends ServiceProvider
         $this->loadViews();
 
         $this->publishAssets();
+
+        $this->publishMigrations();
     }
 
     /**
@@ -110,5 +112,17 @@ class QcloudServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../public/assets' => public_path('vendor/circle33_qcloud'),
         ], 'assets');
+    }
+
+    /**
+     * Publish package migrations.
+     *
+     * @return void
+     */
+    public function publishMigrations()
+    {
+        $this->publishes([
+            __DIR__ . '/../database/migrations' => database_path('migrations')
+        ], 'migrations');
     }
 }
