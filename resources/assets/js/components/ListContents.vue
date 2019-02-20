@@ -57,11 +57,11 @@
         </tr>
       </table>
     </div>
-  </div>
 
-  <!-- 上传组件 -->
-  <div class="fixed pin z-1000 overflow-auto block">
-    <UploadFile/>
+    <!-- 上传组件 -->
+    <div class="fixed pin z-1000 overflow-auto block">
+      <UploadFile/>
+    </div>
   </div>
 </template>
 
