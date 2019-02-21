@@ -1,5 +1,6 @@
 <template>
-  <div class="fixed pin z-1000 overflow-auto block">
+  <div v-show="show" class="fixed pin z-1000 overflow-auto block">
+    <button @click="close" type="button" class="close"><span>x</span></button>
     <div class="container mx-auto shadow-lg">
       <div class="px-6 py-4">
         <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" type="button" @click="alertUpload()">upload file</button>
@@ -23,6 +24,12 @@
 <script>
 export default {
   name: 'UploadFile',
+  props: {
+    show: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       file: [],
@@ -32,6 +39,9 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.$emit('update:show', false)
+    },
     alertUpload() {
       document.getElementById('file').click();
     },

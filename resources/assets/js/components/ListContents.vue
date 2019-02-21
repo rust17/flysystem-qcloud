@@ -142,7 +142,7 @@ export default {
         });
     },
     alertUpload() {
-      // this.showUploadModal = true
+      this.$upload.show()
     },
     handleFiles() {
       let uploadFiles = this.$refs.file.files;
