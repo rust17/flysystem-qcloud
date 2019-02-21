@@ -3,7 +3,7 @@
     <div class="container w-2/5 h-3/4 fixed pin z-1000 overflow-auto block mx-auto my-auto shadow-lg bg-white">
       <div class="px-6 py-4">
         <strong class="text-2xl">upload</strong>
-        <button @click="close" type="button" class="close float-right"><span>x</span></button>
+        <button @click="close" type="button" class="close float-right"><span><svg class="fill-current h-6 w-6 text-red" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg></span></button>
       </div>
 
       <div class="px-6 py-4 text-center">
@@ -21,11 +21,11 @@
         </div>
       </div>
 
-      <div class="px-6 py-4 text-right">
+      <div class="px-6 py-4 absolute pin-r pin-b">
         <button class="bg-blue text-white font-bold py-2 px-4 rounded" type="button" @click="submitFile()" v-show="file.length > 0">Submit</button>
       </div>
     </div>
-    <div class="mask fixed pin-l pin-t z-999 w-full h-full opacity-50 block bg-black"></div>
+    <div class="mask fixed pin-l pin-t z-999 w-full h-full opacity-50 block bg-black" @click="close"></div>
   </div>
 </template>
 
@@ -106,7 +106,7 @@ export default {
   outline-offset: -10px;
   color: dimgray;
   padding: 10px 10px;
-  min-height: 270px;
+  min-height: 520px;
   position: relative;
   cursor: pointer;
 }
