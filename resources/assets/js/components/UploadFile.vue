@@ -9,11 +9,11 @@
       <div class="px-6 py-4 text-center">
         <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" type="button" @click="alertUpload()">upload file</button>
         <div class="filezone mt-5">
-          <input class="hidden" type="file" id="file" ref="file" multiple @change="handleFiles()">
-          <div class="px-6 py-4 flex" v-if="file.length > 0">
-            <div class="flex-1 text-left"><span>{{ file[0].name }}</span></div>
-            <div class="flex-1 text-center"><span>{{ file[0].size }}</span></div>
-            <div class="flex-1 text-right"><a href="javascript:;" class="text-blue hover:text-red" @click="removeFile()">remove</a></div>
+          <input class="hidden" type="file" id="files" ref="file" multiple @change="handleFiles()">
+          <div class="px-6 py-4 flex" v-if="files.length > 0" v-for="(file, index) in files">
+            <div class="flex-1 text-left"><span>{{ file.name }}</span></div>
+            <div class="flex-1 text-center"><span>{{ file.size }}</span></div>
+            <div class="flex-1 text-right"><a href="javascript:;" class="text-blue hover:text-red" @click="removeFile(index)">remove</a></div>
           </div>
           <p v-else>
             Or drop your files here
@@ -22,7 +22,7 @@
       </div>
 
       <div class="px-6 py-4 absolute pin-r pin-b">
-        <button class="bg-blue text-white font-bold py-2 px-4 rounded" type="button" @click="submitFile()" v-show="file.length > 0">Submit</button>
+        <button class="bg-blue text-white font-bold py-2 px-4 rounded" type="button"  v-show="files.length > 0">Submit</button>
       </div>
     </div>
     <div class="mask fixed pin-l pin-t z-999 w-full h-full opacity-50 block bg-black" @click="close"></div>
@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      file: {},
+      files: [],
       route: ''
     }
   },
@@ -49,16 +49,16 @@ export default {
       this.$emit('update:show', false)
     },
     alertUpload() {
-      document.getElementById('file').click();
+      document.getElementById('files').click();
     },
     handleFiles() {
-      let uploadFile = this.$refs.file.files;
+      let uploadFiles = this.$refs.file.files;
 
-      this.file = uploadFile
+      this.files = Object.entries(uploadFiles)
 
-      console.log(this.file)
+      console.log(this.files)
 
-      // this.getFilePreview();
+      this.getFilePreview();
     },
     getFilePreview() {
       this.$nextTick(() => {
@@ -66,12 +66,12 @@ export default {
         this.filesize = this.file.size
       })
     },
-    removeFile() {
-      this.file = null
+    removeFile(key) {
+      this.files.splice(key, 1)
       // this.getFilePreview()
     },
     submitFile() {
-      if (this.file) {
+      if (this.files) {
         let formData = new FormData()
         formData.append('file', this.file)
 
@@ -106,7 +106,7 @@ export default {
   outline-offset: -10px;
   color: dimgray;
   padding: 10px 10px;
-  min-height: 520px;
+  min-height: 200px;
   position: relative;
   cursor: pointer;
 }
