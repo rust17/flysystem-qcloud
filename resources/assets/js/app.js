@@ -1,4 +1,5 @@
-process.env.API_URL = 'qcloud/';
+import upload from './plugins/upload.js'
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -43,6 +44,8 @@ window.Vue = require('vue');
 
 Vue.component('list-contents', require('./components/ListContents.vue'));
 Vue.component('file-show', require('./components/FileShow.vue'));
+
+Vue.use(upload);
 
 const app = new Vue({
   el: '#app'

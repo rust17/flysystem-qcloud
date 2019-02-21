@@ -19,7 +19,6 @@
       <div class="w-full md:w-1/6 px-3 ml-6">
         <div class="relative">
           <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" @click="alertUpload()">upload file</button>
-          <input class="hidden" type="file" id="file" ref="file" multiple v-on:change="handleFiles()">
         </div>
       </div>
     </div>
@@ -57,22 +56,13 @@
         </tr>
       </table>
     </div>
-
-    <!-- 上传组件 -->
-    <div class="fixed pin z-1000 overflow-auto block">
-      <UploadFile/>
-    </div>
   </div>
 </template>
 
 <script>
-import UploadFile from './UploadFile'
 export default {
   props: ['route'],
   name: 'ListContents',
-  components: {
-    UploadFile
-  },
   data() {
     return {
       selected: 1,
@@ -152,7 +142,7 @@ export default {
         });
     },
     alertUpload() {
-      document.getElementById('file').click();
+      // this.showUploadModal = true
     },
     handleFiles() {
       let uploadFiles = this.$refs.file.files;

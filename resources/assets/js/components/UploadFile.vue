@@ -1,20 +1,22 @@
 <template>
-  <div class="container mx-auto shadow-lg">
-    <div class="px-6 py-4">
-      <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" type="button" @click="alertUpload()">upload file</button>
-      <input class="hidden" type="file" id="file" ref="file" multiple @change="handleFiles()">
-      <p>
-        Drop your files here
-      </p>
-    </div>
+  <div class="fixed pin z-1000 overflow-auto block">
+    <div class="container mx-auto shadow-lg">
+      <div class="px-6 py-4">
+        <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" type="button" @click="alertUpload()">upload file</button>
+        <input class="hidden" type="file" id="file" ref="file" multiple @change="handleFiles()">
+        <p>
+          Drop your files here
+        </p>
+      </div>
 
-    <div class="px-6 py-4 inline-flex">
-      <div class="flex-1 text-center">{{ filename }}</div>
-      <div class="flex-1 text-center">{{ filesize }}</div>
-      <div class="flex-1 text-center"><a href="javascript:;" class="text-blue hover:text-red" @click="removeFile()">remove</a></div>
-    </div>
+      <div class="px-6 py-4 inline-flex">
+        <div class="flex-1 text-center">{{ filename }}</div>
+        <div class="flex-1 text-center">{{ filesize }}</div>
+        <div class="flex-1 text-center"><a href="javascript:;" class="text-blue hover:text-red" @click="removeFile()">remove</a></div>
+      </div>
 
-    <button class="bg-blue text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed" type="button" @click="submitFile()" v-show="files.length > 0">Submit</button>
+      <button class="bg-blue text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed" type="button" @click="submitFile()" v-show="file.length > 0">Submit</button>
+    </div>
   </div>
 </template>
 
