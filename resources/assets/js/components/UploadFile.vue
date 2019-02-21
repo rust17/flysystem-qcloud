@@ -1,7 +1,7 @@
 <template>
-  <div v-show="show" class="fixed pin z-1000 overflow-auto block">
-    <button @click="close" type="button" class="close"><span>x</span></button>
-    <div class="container mx-auto shadow-lg">
+  <div v-show="show">
+    <div class="container w-2/5 h-3/4 fixed pin z-1000 overflow-auto block mx-auto shadow-lg bg-white">
+      <button @click="close" type="button" class="close"><span>x</span></button>
       <div class="px-6 py-4">
         <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" type="button" @click="alertUpload()">upload file</button>
         <input class="hidden" type="file" id="file" ref="file" multiple @change="handleFiles()">
@@ -18,6 +18,7 @@
 
       <button class="bg-blue text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed" type="button" @click="submitFile()" v-show="file.length > 0">Submit</button>
     </div>
+    <div class="mask fixed pin-l pin-t z-999 w-full h-full opacity-50 block bg-black"></div>
   </div>
 </template>
 
