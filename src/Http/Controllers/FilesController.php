@@ -4,6 +4,7 @@ namespace Circle33\Flysystem\Qcloud\Http\Controllers;
 
 use Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Circle33\Flysystem\Qcloud\Models\File;
 use Circle33\Flysystem\Qcloud\Http\Resources\FileResource;
 
@@ -45,6 +46,8 @@ class FilesController extends ApiController
 
     public function store(Request $request)
     {
+        $file = Input::file('file');
+
         $request->validate([
             'path' => '',
             'body' => '',

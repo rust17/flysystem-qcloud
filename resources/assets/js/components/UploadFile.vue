@@ -77,19 +77,21 @@ export default {
         })
       }
       if (this.files) {
-        let formData = new FormData()
-        formData.append('file', this.files)
+        this.files.forEach((file) => {
+          let formData = new FormData()
+          formData.append('file', file)
 
-        axios.post(`${this.uploadUrl}`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
+          axios.post(`${this.uploadUrl}`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
             }
-          }
-        ).then(() => {
-          swal({
-            title: "上传成功"
+          ).then(() => {
+            swal({
+              title: "上传成功"
+            })
           })
         })
       } else {
