@@ -9,11 +9,13 @@
       <div class="px-6 py-4 text-center">
         <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" type="button" @click="alertUpload()">upload file</button>
         <div class="filezone mt-5">
-          <input class="hidden" type="file" id="files" ref="file" multiple @change="handleFiles()">
-          <div class="px-6 py-4 flex" v-if="files.length > 0" v-for="(file, index) in files">
-            <div class="flex-1 text-left"><span>{{ file.name }}</span></div>
-            <div class="flex-1 text-center"><span>{{ file.size }}</span></div>
-            <div class="flex-1 text-right"><a href="javascript:;" class="text-blue hover:text-red" @click="removeFile(index)">remove</a></div>
+          <input class="opacity-0" type="file" id="files" ref="file" multiple @change="handleFiles()">
+          <div v-if="files.length > 0">
+            <div class="px-6 py-4 flex" v-for="(file, index) in files">
+              <div class="flex-1 text-left"><span>{{ file.name }}</span></div>
+              <div class="flex-1 text-center"><span>{{ file.size }}</span></div>
+              <div class="flex-1 text-right"><a href="javascript:;" class="text-blue hover:text-red" @click="removeFile(index)">remove</a></div>
+            </div>
           </div>
           <p v-else>
             Or drop your files here
@@ -21,7 +23,7 @@
         </div>
       </div>
 
-      <div class="px-6 py-4 absolute pin-r pin-b">
+      <div class="px-6 py-4 text-right">
         <button class="bg-blue text-white font-bold py-2 px-4 rounded" type="button"  v-show="files.length > 0">Submit</button>
       </div>
     </div>
@@ -54,11 +56,13 @@ export default {
     handleFiles() {
       let uploadFiles = this.$refs.file.files;
 
-      this.files = Object.entries(uploadFiles)
+      for (var i = 0; i < uploadFiles.length; i ++) {
+        this.files.push(uploadFiles[i])
+      }
 
       console.log(this.files)
 
-      this.getFilePreview();
+      // this.getFilePreview();
     },
     getFilePreview() {
       this.$nextTick(() => {
@@ -101,6 +105,14 @@ export default {
 </script>
 
 <style scoped>
+input[type="file"] {
+  height: 200px;
+  position: absolute;
+  left: 0;
+  cursor: pointer;
+  width: 85%;
+}
+
 .filezone {
   outline: 2px dashed grey;
   outline-offset: -10px;
