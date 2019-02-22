@@ -142,11 +142,8 @@ export default {
         });
     },
     alertUpload() {
+      this.$upload.setUrl(`${this.route}/files`)
       this.$upload.show()
-    },
-    handleFiles() {
-      let uploadFiles = this.$refs.file.files;
-      console.log(uploadFiles);
     }
   }
 }

@@ -15,6 +15,9 @@ export default {
     })
 
     const upload = {
+      setUrl(uploadUrl) {
+        vm.uploadUrl = uploadUrl
+      },
       show() {
         vm.show = false
 

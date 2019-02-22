@@ -24,7 +24,7 @@
       </div>
 
       <div class="px-6 py-4 text-right">
-        <button class="bg-blue text-white font-bold py-2 px-4 rounded" type="button"  v-show="files.length > 0">Submit</button>
+        <button class="bg-blue text-white font-bold py-2 px-4 rounded" type="button"  v-show="files.length > 0" @click="submitFile()">Submit</button>
       </div>
     </div>
     <div class="mask fixed pin-l pin-t z-999 w-full h-full opacity-50 block bg-black" @click="close"></div>
@@ -38,6 +38,10 @@ export default {
     show: {
       type: Boolean,
       default: false
+    },
+    uploadUrl: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -51,35 +55,32 @@ export default {
       this.$emit('update:show', false)
     },
     alertUpload() {
-      document.getElementById('files').click();
+      document.getElementById('files').click()
     },
     handleFiles() {
-      let uploadFiles = this.$refs.file.files;
+      let uploadFiles = this.$refs.file.files
 
       for (var i = 0; i < uploadFiles.length; i ++) {
         this.files.push(uploadFiles[i])
       }
-
-      console.log(this.files)
-
-      // this.getFilePreview();
-    },
-    getFilePreview() {
-      this.$nextTick(() => {
-        this.filename = this.file.name
-        this.filesize = this.file.size
-      })
     },
     removeFile(key) {
       this.files.splice(key, 1)
-      // this.getFilePreview()
     },
     submitFile() {
+      if ( ! this.uploadUrl) {
+        swal({
+          title: "请先设置上传路径",
+          type: "error",
+          showCancelButton: true,
+          closeOnConfirm: true
+        })
+      }
       if (this.files) {
         let formData = new FormData()
-        formData.append('file', this.file)
+        formData.append('file', this.files)
 
-        axios.post(`${this.route}/files`,
+        axios.post(`${this.uploadUrl}`,
           formData,
           {
             headers: {
@@ -93,7 +94,7 @@ export default {
         })
       } else {
         swal({
-          title: "请先上传文件",
+          title: "请先选择上传文件",
           type: "error",
           showCancelButton: true,
           closeOnConfirm: true
