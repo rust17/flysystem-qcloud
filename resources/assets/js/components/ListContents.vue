@@ -40,7 +40,7 @@
           <th>操作</th>
         </tr>
         <tr v-for="(file, key) in files">
-          <td>{{ key }}</td>
+          <td>{{ file.id }}</td>
           <td><a :href="`/${route}/file/${file.id}`" class="no-underline text-blue">{{ file.filename }}</a></td>
           <td>{{ file.size }}</td>
           <td>{{ file.lastModified }}</td>
@@ -77,36 +77,7 @@ export default {
           value: 2
         }
       ],
-      files: [
-        {
-          filename: 'example',
-          size: '358939',
-          lastModified: '2019-01-06T08:58:44.000Z',
-          extension: 'jpg',
-          id: 1
-        },
-        {
-          filename: 'example',
-          size: '358939',
-          lastModified: '2019-01-06T08:58:44.000Z',
-          extension: 'jpg',
-          id: 1
-        },
-        {
-          filename: 'example',
-          size: '358939',
-          lastModified: '2019-01-06T08:58:44.000Z',
-          extension: 'jpg',
-          id: 1
-        },
-        {
-          filename: 'example',
-          size: '358939',
-          lastModified: '2019-01-06T08:58:44.000Z',
-          extension: 'jpg',
-          id: 1
-        },
-      ]
+      files: []
     }
   },
   watch: {
@@ -121,13 +92,19 @@ export default {
   },
   methods: {
     fetch(page = 1) {
-      axios.get(`/${this.route}/list_contents?directory=/&page=` + page).then(({data}) => {})
+      axios.get(`/${this.route}/list_contents?directory=/&page=` + page).then(({ data }) => {
+        this.files = data.data
+      })
     },
     search() {
       if (this.selected === 1) {
-        axios.get(`/${this.route}/list_contents?directory=${this.path}&page=1`).then(({data}) => {})
+        axios.get(`/${this.route}/list_contents?directory=${this.path}&page=1`).then(({ data }) => {
+          this.files = data.data
+        })
       } else if (this.selected === 2) {
-        axios.get(`/${this.route}/exists?filename=${this.path}`).then(({data}) => {})
+        axios.get(`/${this.route}/exists?filename=${this.path}`).then(({ data }) => {
+          this.files = data.data
+        })
       }
     },
     alertCopy() {

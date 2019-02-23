@@ -2,10 +2,11 @@
 
 namespace Circle33\Flysystem\Qcloud\Http\Controllers;
 
+use File;
 use Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Circle33\Flysystem\Qcloud\Models\File;
+use Circle33\Flysystem\Qcloud\Models\Circle33File;
 use Circle33\Flysystem\Qcloud\Http\Resources\FileResource;
 
 class FilesController extends ApiController
@@ -18,8 +19,8 @@ class FilesController extends ApiController
     public function index(Request $request)
     {
         if ($directory = $request->get('directory')) {
-            $files = File::query()->where('path', $directory)->paginate();
-            return FileResource::collection($files);
+            $circle33files = Circle33File::query()->where('path', $directory)->paginate();
+            return FileResource::collection($circle33files);
         }
 
         \abort(404);
@@ -28,7 +29,8 @@ class FilesController extends ApiController
     public function exists(Request $request)
     {
         if ($filename = $request->get('filename')) {
-            return ['exists' => File::query()->where('filename', $filename)->exists()];
+            $circle33file = Circle33File::query()->where('filename', 'like', '%'. $filename .'%')->get();
+            return ['data' => FileResource::collection($circle33file)];
         }
 
         \abort(404);
@@ -37,8 +39,8 @@ class FilesController extends ApiController
     public function show(Request $request)
     {
         if ($filename = $request->get('filename')) {
-            $file = File::query()->where('filename', $filename)->get();
-            return FileResource::toArray($file);
+            $circle33file = Circle33File::query()->where('filename', $filename)->get();
+            return FileResource::toArray($circle33file);
         }
 
         \abort(404);
@@ -47,17 +49,18 @@ class FilesController extends ApiController
     public function store(Request $request)
     {
         $file = Input::file('file');
+        // print_r($file->getMimeType());die;
+        $path = $file->getClientOriginalName();
+        $body = File::get($file);
 
-        $request->validate([
-            'path' => '',
-            'body' => '',
-        ]);
+        $this->storage->write($path, $body);
 
-        $this->storage->write($request->get('path'), $request->get('body'));
-
-        $file = File::create([
-            'filename' => $request->get('path'),
-            ''
+        $circle33file = Circle33File::create([
+            'filename' => $path,
+            'size'     => $file->getSize(),
+            'path'     => '/',
+            'mime'     => $file->getMimeType(),
+            'url'      => '',
         ]);
 
         return response()->json([
@@ -65,39 +68,39 @@ class FilesController extends ApiController
         ]);
     }
 
-    public function rename(File $file, Request $request)
+    public function rename(Circle33File $circle33file, Request $request)
     {
-        if (File::query()->find($file->id)) {
+        if (Circle33File::query()->find($circle33file->id)) {
             $newFilename = $request->get('newFilename');
-            $file->update(['filename' => $newFilename]);
-            $this->storage->rename($file->filename, $newFilename);
+            $circle33file->update(['filename' => $newFilename]);
+            $this->storage->rename($circle33file->filename, $newFilename);
         }
 
         \abort(404);
     }
 
-    public function destroy(File $file)
+    public function destroy(Circle33File $circle33file)
     {
-        if (File::query()->find($file->id)) {
-            $file->delete();
-            $this->storage->delete($file->filename);
+        if (Circle33File::query()->find($circle33file->id)) {
+            $circle33file->delete();
+            $this->storage->delete($circle33file->filename);
         }
 
         \abort(404);
     }
 
-    public function copy(File $file, Request $request)
+    public function copy(Circle33File $circle33file, Request $request)
     {
-        if (File::query()->find($file->id)) {
+        if (Circle33File::query()->find($circle33file->id)) {
             $newFilename = $request->get('newFilename');
-            $newFile = File::create([
+            $newFile = Circle33File::create([
                 'filename' => $newFilename,
-                'size'     => $file->size,
-                'path'     => $file->path,
-                'mime'     => $file->mime,
+                'size'     => $circle33file->size,
+                'path'     => $circle33file->path,
+                'mime'     => $circle33file->mime,
                 'url'      => ''
             ]);
-            $this->storage->copy($file->filename, $newFilename);
+            $this->storage->copy($circle33file->filename, $newFilename);
         }
 
         \abort(404);

@@ -2,6 +2,7 @@
 
 namespace Circle33\Flysystem\Qcloud\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
 
 class FileResource extends Resource
@@ -15,11 +16,11 @@ class FileResource extends Resource
     public function toArray($request)
     {
         return [
-            'filename'     => $request->filename,
-            'size'         => $request->size,
-            'lastModified' => $request->lastModified,
-            'extension'    => $request->extension,
-            'id'           => $request->id,
+            'filename'     => $this->filename,
+            'size'         => $this->size,
+            'lastModified' => $this->updated_at->diffForHumans(),
+            'extension'    => $this->mime,
+            'id'           => $this->id,
         ];
     }
 }
