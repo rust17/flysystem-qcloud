@@ -30,7 +30,7 @@ class FilesController extends ApiController
     {
         if ($filename = $request->get('filename')) {
             $circle33file = Circle33File::query()->where('filename', 'like', '%'. $filename .'%')->get();
-            return ['data' => FileResource::collection($circle33file)];
+            return FileResource::collection($circle33file);
         }
 
         \abort(404);
