@@ -20,10 +20,10 @@ Route::group([
         ->name('qcloud.api.flies.show');
     $router->post($configApiUrl . '/files', 'FilesController@store')
         ->name('qcloud.api.files.store');
-    $router->patch($configApiUrl . '/files/{path}/rename', 'FilesController@rename')
+    $router->patch($configApiUrl . '/files/{file}/rename', 'FilesController@rename')
         ->name('qcloud.api.files.rename');
-    $router->delete($configApiUrl . '/files/{path}', 'FilesController@destroy')
+    $router->delete($configApiUrl . '/files/{file}', 'FilesController@destroy')
         ->name('qcloud.api.files.destroy');
-    $router->post($configApiUrl . '/files_copy/{path}', 'FilesController@copy')
+    $router->post($configApiUrl . '/files_copy/{file}', 'FilesController@copy')
         ->name('qcloud.api.files.copy');
 });
