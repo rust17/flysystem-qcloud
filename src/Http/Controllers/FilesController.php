@@ -73,6 +73,7 @@ class FilesController extends ApiController
 
     public function rename(Circle33File $circle33file, Request $request)
     {
+        print_r($request->get('newFilename'));die;
         if (Circle33File::query()->find($circle33file->id)) {
             $newFilename = $request->get('newFilename');
 
@@ -126,9 +127,7 @@ class FilesController extends ApiController
                 'url'      => ''
             ]);
 
-            return response()->json([
-                'message' => '文件复制成功！',
-            ]);
+            return new FileResource($newFile);
         }
 
         \abort(400);

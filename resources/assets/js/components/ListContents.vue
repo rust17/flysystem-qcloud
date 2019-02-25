@@ -46,7 +46,7 @@
           <td>{{ file.lastModified }}</td>
           <td>{{ file.extension }}</td>
           <td>
-            <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" @click="alertCopy()">
+            <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" @click="alertCopy(file.id)">
               copy
             </button>
             <button class="bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white py-2 px-4 hover:border-transparent rounded">
@@ -107,16 +107,53 @@ export default {
         })
       }
     },
-    alertCopy() {
+    alertCopy(fileId) {
       swal({
-        title: "确定复制该文件？",
-        type: "info",
+        title: "Copy File？",
+        content: {
+          element: "input",
+          attributes: {
+            placeholder: 'Please type your new filename'
+          }
+        },
         showCancelButton: true,
-        closeOnConfirm: true
+        buttons: {
+          cancel: true,
+          confirm: true
+        }
       })
-        .then(() => {
-          console.log('click yes');
+        .then((inputValue) => {
+          if (inputValue) {
+            axios.post(`/${this.route}/files/${fileId}/copy`, {
+              'newFilename': inputValue
+            })
+            .then(({ data }) => {
+              this.files.push(data.data)
+              swal({
+                title: 'copy success!'
+              })
+            })
+            .catch((error) => {
+              console.log(error)
+              console.log(error.response)
+              console.log(error.request)
+              // swal({
+              //   title: error
+              // })
+            })
+          }
         });
+    },
+    updateFile(newFile) {
+      for (let file of this.files) {
+        if (parseInt(newFile.id) === parseInt(file.id)) {
+          file.filename = newFile.filename
+          file.size = newFile.size
+          file.lastModified = newFile.lastModified
+          file.extension = newFile.extension
+          break
+        }
+      }
     },
     alertUpload() {
       this.$upload.setUrl(`${this.route}/files`)
@@ -128,4 +165,5 @@ export default {
 
 <style scoped>
 th, td { padding: 20px; border: 1px solid #dae1e7; }
+input::-webkit-input-placeholder { padding-left: .75rem; }
 </style>
