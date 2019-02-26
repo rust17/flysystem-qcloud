@@ -49,7 +49,7 @@
             <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" @click="alertCopy(file.id)">
               copy
             </button>
-            <button class="bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white py-2 px-4 hover:border-transparent rounded">
+            <button class="bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white py-2 px-4 hover:border-transparent rounded" @click="alertDelete(file.id)">
               delete
             </button>
           </td>
@@ -140,6 +140,39 @@ export default {
             })
           }
         });
+    },
+    alertDelete(fileId) {
+      swal({
+        title: 'Delete File？',
+        showCancelButton: true,
+        buttons: {
+          cancel: true,
+          confirm: true
+        }
+      })
+        .then(() => {
+          axios.delete(`/${this.route}/files/${fileId}`)
+            .then((response) => {
+              if (response.status === 204) {
+                swal({
+                  title: 'Delete Success！'
+                })
+                  .then(() => {
+                  for (let file of this.files) {
+                    if (parseInt(file.id) === parseInt(fileId)) {
+                      this.files.splice(this.files.indexOf(file), 1)
+                      break
+                    }
+                  }
+                })
+              }
+            })
+            .catch((error) => {
+              swal({
+                title: error.response.data.message
+              })
+            })
+        })
     },
     updateFile(newFile) {
       for (let file of this.files) {
