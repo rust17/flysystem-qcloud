@@ -93,6 +93,11 @@ export default {
               title: "上传成功"
             })
           })
+          .catch((error) => {
+            swal({
+              title: error.response.data.message
+            })
+          })
         })
       } else {
         swal({

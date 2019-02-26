@@ -134,12 +134,9 @@ export default {
               })
             })
             .catch((error) => {
-              console.log(error)
-              console.log(error.response)
-              console.log(error.request)
-              // swal({
-              //   title: error
-              // })
+              swal({
+                title: error.response.data.message
+              })
             })
           }
         });
