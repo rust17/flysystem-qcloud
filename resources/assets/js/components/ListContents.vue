@@ -174,6 +174,38 @@ export default {
             })
         })
     },
+    alertRename(fileId) {
+      swal({
+        title: 'Rename File？',
+        content: {
+          element: "input",
+          attributes: {
+            placeholder: "Please input new filename"
+          }
+        },
+        showCancelButton: true,
+        buttons: {
+          cancel: true,
+          confirm: true
+        }
+      })
+       .then((inputValue) => {
+        axios.patch(`/${this.route}/files/${fileId}/rename`, {
+          'newFilename': inputValue
+        })
+          .then(({ data }) => {
+            swal({
+              title: 'Rename Success！'
+            })
+              .then(() => { this.updateFile(data.data) })
+          })
+          .catch((error) => {
+            swal({
+              title: error.response.data.message
+            })
+          })
+       })
+    },
     updateFile(newFile) {
       for (let file of this.files) {
         if (parseInt(newFile.id) === parseInt(file.id)) {

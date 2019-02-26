@@ -73,7 +73,6 @@ class FilesController extends ApiController
 
     public function rename(Circle33File $circle33file, Request $request)
     {
-        print_r($request->get('newFilename'));die;
         if (Circle33File::query()->find($circle33file->id)) {
             $newFilename = $request->get('newFilename');
 
@@ -85,7 +84,7 @@ class FilesController extends ApiController
 
             $circle33file->update(['filename' => $newFilename]);
 
-            return FileResource::collection($circle33file);
+            return new FileResource($circle33file);
         }
 
         \abort(400);
