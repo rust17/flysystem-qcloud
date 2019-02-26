@@ -41,7 +41,7 @@
         </tr>
         <tr v-for="(file, key) in files">
           <td>{{ file.id }}</td>
-          <td><a :href="`/${route}/file/${file.id}`" class="no-underline text-blue">{{ file.filename }}</a></td>
+          <td><a href="javascript:;" @click="alertRename(file.id)" class="no-underline text-blue">{{ file.filename }}</a></td>
           <td>{{ file.size }}</td>
           <td>{{ file.lastModified }}</td>
           <td>{{ file.extension }}</td>
@@ -139,7 +139,7 @@ export default {
               })
             })
           }
-        });
+        })
     },
     alertDelete(fileId) {
       swal({
@@ -190,20 +190,22 @@ export default {
         }
       })
        .then((inputValue) => {
-        axios.patch(`/${this.route}/files/${fileId}/rename`, {
-          'newFilename': inputValue
-        })
-          .then(({ data }) => {
-            swal({
-              title: 'Rename Success！'
-            })
-              .then(() => { this.updateFile(data.data) })
+        if (inputValue) {
+          axios.patch(`/${this.route}/files/${fileId}/rename`, {
+            'newFilename': inputValue
           })
-          .catch((error) => {
-            swal({
-              title: error.response.data.message
+            .then(({ data }) => {
+              swal({
+                title: 'Rename Success！'
+              })
+                .then(() => { this.updateFile(data.data) })
             })
-          })
+            .catch((error) => {
+              swal({
+                title: error.response.data.message
+              })
+            })
+          }
        })
     },
     updateFile(newFile) {
