@@ -61,9 +61,11 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function write($path, $contents, Config $config)
     {
-        $arr = ['Bucket' => $this->bucket, 'Key' => $path, 'Body' => $contents];
+        $config = new Config(['key' => $path, 'body' => $contents]);
 
-        $this->client()->putObject($arr);
+        $options = $this->getOptions($config);
+
+        $this->client()->putObject($options);
 
         return true;
     }
@@ -79,9 +81,11 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function writeStream($path, $resource, Config $config)
     {
-        $arr = ['Bucket' => $this->bucket, 'Key' => $path, 'Body' => $resource];
+        $config = new Config(['key' => $path, 'body' => $resource]);
 
-        $this->client()->putObject($arr);
+        $options = $this->getOptions($config);
+
+        $this->client()->putObject($options);
 
         return true;
     }
@@ -145,9 +149,11 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function copy($path, $newpath)
     {
-        $arr = ['Bucket' => $this->bucket, 'CopySource' => "{$this->bucket}.cos.{$this->region}.myqcloud.com/{$path}", 'Key' => $newpath];
+        $config = new Config(['key' => $newpath, 'copySource' => "{$this->bucket}.cos.{$this->region}.myqcloud.com/{$path}"]);
 
-        $this->client()->copyObject($arr);
+        $options = $this->getOptions($config);
+
+        $this->client()->copyObject($options);
 
         return true;
     }
@@ -161,10 +167,12 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function delete($path)
     {
-        $arr = ['Bucket' => $this->bucket, 'Key' => $path];
+        $config = new Config(['key' => $path]);
+
+        $options = $this->getOptions($config);
 
         try {
-            $result = $this->client()->deleteObject($arr);
+            $result = $this->client()->deleteObject($options);
             return is_object($result);
         } catch (\Exception $e) {
             return false;
@@ -205,10 +213,12 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function has($path)
     {
-        $arr = ['Bucket' => $this->bucket, 'Key' => $path];
+        $config = new Config(['key' => $path]);
+
+        $options = $this->getOptions($config);
 
         try {
-            $result = $this->client()->headObject($arr);
+            $result = $this->client()->headObject($options);
             return is_object($result);
         } catch (\Exception $e) {
             return false;
@@ -224,10 +234,12 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function read($path)
     {
-        $object = $this->client()->getObject([
-            'Bucket' => $this->bucket,
-            'Key' => $path,
-        ]);
+        $config = new Config(['key' => $path]);
+
+        $options = $this->getOptions($config);
+
+        $object = $this->client()->getObject($options);
+
         $contentType = $object->get('ContentType');
         $lastModified = $object->get('LastModified');
         $contentLength = $object->get('ContentLength');
@@ -265,10 +277,12 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function listContents($directory = '', $recursive = false)
     {
-        $object = $this->client()->listObjects([
-            'Bucket' => $this->bucket,
-            'Prefix' => $directory
-        ]);
+        $config = new Config(['directory' => $directory]);
+
+        $options = $this->getOptions($config);
+
+        $object = $this->client()->listObjects($options);
+
         $contents = $object->get('Contents');
         array_walk($contents, function (&$_content) {
             $_content['path'] = $_content['Key'];
@@ -347,5 +361,27 @@ class QcloudAdapter extends AbstractAdapter
                 'secretKey' => $this->secretKey,
             ],
         ]);
+    }
+
+    /**
+     * Get the setting config
+     *
+     * @param Config $config
+     *
+     * @return array
+     */
+    public function getOptions(Config $config)
+    {
+        $bucket     = $this->getBucket();
+
+        $key        = $config->get('key');
+
+        $body       = $config->get('body');
+
+        $copySource = $config->get('copySource');
+
+        $directory  = $config->get('directory');
+
+        return array_filter(['Bucket' => $bucket, 'Key' => $key, 'Body' => $body, 'CopySource' => $copySource, 'Prefix' => $directory]);
     }
 }
