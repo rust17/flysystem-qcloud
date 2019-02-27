@@ -171,12 +171,7 @@ class QcloudAdapter extends AbstractAdapter
 
         $options = $this->getOptions($config);
 
-        try {
-            $result = $this->client()->deleteObject($options);
-            return is_object($result);
-        } catch (\Exception $e) {
-            return false;
-        }
+        return (bool) $this->client()->deleteObject($options);
     }
 
     /**
@@ -213,16 +208,7 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function has($path)
     {
-        $config = new Config(['key' => $path]);
-
-        $options = $this->getOptions($config);
-
-        try {
-            $result = $this->client()->headObject($options);
-            return is_object($result);
-        } catch (\Exception $e) {
-            return false;
-        }
+        return (bool) $this->getMetaData($path);
     }
 
     /**
@@ -240,13 +226,7 @@ class QcloudAdapter extends AbstractAdapter
 
         $object = $this->client()->getObject($options);
 
-        $contentType = $object->get('ContentType');
-        $lastModified = $object->get('LastModified');
-        $contentLength = $object->get('ContentLength');
-        $meta = $object->get('MissingMeta');
-        $contents = $object->get('Body')->__toString();
-
-        return compact('contents', 'path', 'meta', 'contentLength', 'lastModified', 'contentType');
+        return ['contents' => (string) $object->get('Body')];
     }
 
     /**
@@ -277,16 +257,17 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function listContents($directory = '', $recursive = false)
     {
-        $config = new Config(['directory' => $directory]);
+        $config   = new Config(['directory' => $directory]);
 
-        $options = $this->getOptions($config);
+        $options  = $this->getOptions($config);
 
-        $object = $this->client()->listObjects($options);
+        $object   = $this->client()->listObjects($options);
 
-        $contents = $object->get('Contents');
-        array_walk($contents, function (&$_content) {
-            $_content['path'] = $_content['Key'];
-        });
+        $contents = (array) $object->get('Contents');
+
+        foreach ($contents as &$content) {
+            $content['path'] = $content['Key'];
+        }
 
         return $contents;
     }
@@ -294,15 +275,17 @@ class QcloudAdapter extends AbstractAdapter
     /**
      * Get all the meta data of a file or directory.
      *
-     * @param string $path
+     * @param $path
      *
-     * @return array|false
+     * @return array
      */
-    public function getMetadata($path)
+    public function getMetaData($path)
     {
-        $result = $this->read($path);
+        $config = new Config(['key' => $path]);
 
-        return $result['MissingMeta'];
+        $options = $this->getOptions($config);
+
+        return $this->client()->headObject($options)->toArray();
     }
 
     /**
@@ -314,8 +297,10 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function getSize($path)
     {
-        $result = $this->read($path);
-        $size = $result['contentLength'];
+        $result = $this->getMetaData($path);
+
+        $size = $result['ContentLength'];
+
         return compact("size");
     }
 
@@ -328,8 +313,10 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function getMimetype($path)
     {
-        $result = $this->read($path);
-        $mimetype = $result['contentType'];
+        $result = $this->getMetaData($path);
+
+        $mimetype = $result['ContentType'];
+
         return compact("mimetype");
     }
 
@@ -342,8 +329,10 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function getTimestamp($path)
     {
-        $result = $this->read($path);
-        $timestamp = $result['lastModified'];
+        $result = $this->getMetaData($path);
+
+        $timestamp = $result['LastModified'];
+
         return compact("timestamp");
     }
 
@@ -383,5 +372,25 @@ class QcloudAdapter extends AbstractAdapter
         $directory  = $config->get('directory');
 
         return array_filter(['Bucket' => $bucket, 'Key' => $key, 'Body' => $body, 'CopySource' => $copySource, 'Prefix' => $directory]);
+    }
+
+    /**
+     * Return the bucket
+     *
+     * @return string
+     */
+    public function getBucket()
+    {
+        return $this->bucket;
+    }
+
+    /**
+     * Return the region
+     *
+     * @return string
+     */
+    public function getRegion()
+    {
+        return $this->region;
     }
 }
