@@ -6,6 +6,8 @@ use League\Flysystem\Config;
 use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\Adapter\Polyfill\NotSupportingVisibilityTrait;
 use Qcloud\Cos\Client;
+use Qcloud\Cos\Exception\NoSuchKeyException;
+use League\Flysystem\FileNotFoundException;
 
 class QcloudAdapter extends AbstractAdapter
 {
@@ -65,9 +67,7 @@ class QcloudAdapter extends AbstractAdapter
 
         $options = $this->getOptions($config);
 
-        $this->client()->putObject($options);
-
-        return true;
+        return $this->client()->putObject($options);
     }
 
     /**
@@ -85,9 +85,7 @@ class QcloudAdapter extends AbstractAdapter
 
         $options = $this->getOptions($config);
 
-        $this->client()->putObject($options);
-
-        return true;
+        return $this->client()->putObject($options);
     }
 
     /**
@@ -101,9 +99,7 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function update($path, $contents, Config $config)
     {
-        $this->write($path, $contents, $config);
-
-        return true;
+        return $this->write($path, $contents, $config);
     }
 
     /**
@@ -117,9 +113,7 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function updateStream($path, $resource, Config $config)
     {
-        $this->writeStream($path, $resource, $config);
-
-        return true;
+        return $this->writeStream($path, $resource, $config);
     }
 
     /**
@@ -134,9 +128,7 @@ class QcloudAdapter extends AbstractAdapter
     {
         $this->copy($path, $newpath);
 
-        $this->delete($path);
-
-        return true;
+        return $this->delete($path);
     }
 
     /**
@@ -153,9 +145,7 @@ class QcloudAdapter extends AbstractAdapter
 
         $options = $this->getOptions($config);
 
-        $this->client()->copyObject($options);
-
-        return true;
+        return $this->client()->copyObject($options);
     }
 
     /**
@@ -208,7 +198,11 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function has($path)
     {
-        return (bool) $this->getMetaData($path);
+        try {
+            return (bool) $this->getMetaData($path);
+        } catch (NoSuchKeyException $e) {
+            return false;
+        }
     }
 
     /**
@@ -220,13 +214,17 @@ class QcloudAdapter extends AbstractAdapter
      */
     public function read($path)
     {
-        $config = new Config(['key' => $path]);
+        try {
+            $config = new Config(['key' => $path]);
 
-        $options = $this->getOptions($config);
+            $options = $this->getOptions($config);
 
-        $object = $this->client()->getObject($options);
+            $object = $this->client()->getObject($options);
 
-        return ['contents' => (string) $object->get('Body')];
+            return ['contents' => (string) $object->get('Body')];
+        } catch (NoSuchKeyException $e) {
+            return null;
+        }
     }
 
     /**
