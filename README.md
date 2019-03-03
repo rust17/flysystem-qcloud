@@ -1,6 +1,6 @@
 <h1 align="center"> qcloud filesystem </h1>
 
-<p align="center"> A qcloud filesystem package.</p>
+<p align="center"> Flysystem adaptet for the qcloud storage.</p>
 
 
 ## Installing
@@ -22,10 +22,14 @@ $region    = 'xxxxxx';
 
 $adapter = new QcloudAdapter($secretId, $secretKey, $bucket, $region);
 
-$flysystem = new League\Flysystem\Filesystem($adapter);
+$filesystem = new League\Flysystem\Filesystem($adapter);
 ```
 
 Use in laravel
+
+```shell
+composer require circle33/flysystem-qcloud -vvv
+```
 
 Add config to your fliesystems.php
 ```php
@@ -44,9 +48,49 @@ Add config to your fliesystems.php
 $filesystem = Storage::disk('qcloud_oss');
 ```
 
+It exposes a user interface allowing you to manage your files.If you want to add to your project，you need to:
+
+```shell
+php artisan vendor:publish --provider=Circle33\\Flysystem\\Qcloud\\QcloudServiceProvider
+```
+
+```shell
+php artisan migrate
+```
+
+Navigate to http://your-project.test/circle33qcloud (update `circle33qcloud` to match the `circle33_qcloud.ui_url` configuration setting) and use the interface to manage your files.
+
 ### API
 
-TODO
+```php
+$filesystem->write('file.md', 'contents');
+
+$filesystem->writeStream('file.md', fopen('path/to/your/local/file.jpg', 'rb'));
+
+$filesystem->update('file.md', 'new contents');
+
+$filesystem->updateStream('file.md', fopen('path/to/your/local/file.jpg', 'rb'));
+
+$filesystem->rename('foo.md', 'foo2.md');
+
+$filesystem->copy('foo.md', 'foo2.md');
+
+$filesystem->delete('file.md');
+
+$filesystem->has('file.md');
+
+$filesystem->read('file.md');
+
+$filesystem->listContents('your qcloud oss filelist path');
+
+$filesystem->getMetadata('file.md');
+
+$filesystem->getSize('file.md');
+
+$filesystem->getMimetype('file.md');
+
+$filesystem->getTimestamp('file.md');
+```
 
 ## Contributing
 
