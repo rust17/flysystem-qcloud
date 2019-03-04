@@ -1,18 +1,15 @@
-<h1 align="center"> qcloud filesystem </h1>
+<h1 align="center"> 腾讯云文件驱动 </h1>
 
-<p align="center"> Flysystem adapter for the qcloud storage.</p>
+<p align="center"> 腾讯云对象存储文件系统的 flysystem 适配器</p>
 
-## Doc
 
-- [中文](https://github.com/rust17/flysystem-qcloud/blob/master/Zh-README.md)
-
-## Installing
+## 安装
 
 ```shell
 $ composer require circle33/flysystem-qcloud -vvv
 ```
 
-## Usage
+## 使用
 
 ```php
 use League\Flysystem\Filesystem;
@@ -28,13 +25,13 @@ $adapter = new QcloudAdapter($secretId, $secretKey, $bucket, $region);
 $filesystem = new League\Flysystem\Filesystem($adapter);
 ```
 
-Use in laravel
+在 Laravel 当中使用
 
 ```shell
 composer require circle33/flysystem-qcloud -vvv
 ```
 
-Add config to your fliesystems.php
+添加如下代码到你的 fliesystems.php 文件
 ```php
 'disks' => [
     ...
@@ -51,7 +48,7 @@ Add config to your fliesystems.php
 $filesystem = Storage::disk('qcloud_oss');
 ```
 
-It exposes a user interface allowing you to manage your files.If you want to add to your project，you need to:
+该扩展包自带了一个用户界面，你可以使用该界面管理你的文件。如果你想要整合到你的项目中，需要执行：
 
 ```shell
 php artisan vendor:publish --provider=Circle33\\Flysystem\\Qcloud\\QcloudServiceProvider
@@ -61,9 +58,9 @@ php artisan vendor:publish --provider=Circle33\\Flysystem\\Qcloud\\QcloudService
 php artisan migrate
 ```
 
-Navigate to http://your-project.test/circle33qcloud (update `circle33qcloud` to match the `circle33_qcloud.ui_url` configuration setting) and use the interface to manage your files.
+访问链接 http://your-project.test/circle33qcloud （可以将 `circle33qcloud` 更改成 `circle33_qcloud.php` 配置文件中的 `ui_url` 键对应的值），然后就可以使用该界面了。
 
-### API
+### 接口
 
 ```php
 $filesystem->write('file.md', 'contents');
@@ -95,17 +92,17 @@ $filesystem->getMimetype('file.md');
 $filesystem->getTimestamp('file.md');
 ```
 
-## Contributing
+## 贡献
 
-You can contribute in one of three ways:
+你可以通过以下三种方式帮助完善该扩展包：
 
-1. File bug reports using the [issue tracker](https://github.com/rust17/flysystem-qcloud/issues).
-2. Answer questions or fix bugs on the [issue tracker](https://github.com/rust17/flysystem-qcloud/issues).
-3. Contribute new features or update the wiki.
+1. 使用 [issue tracker](https://github.com/rust17/flysystem-qcloud/issues) 提交 bug 报告。
+2. 使用 [issues tracker](https://github.com/rust17/flysystem-qcloud/issues) 回答问题以及修复 bug。
+3. 提交新功能或者更新 wiki。
 
-_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
+_该扩展包的代码贡献机制还不是很正式。你只需要确保你的代码遵循 PSR-0，PSR-1 以及 PSR-2 代码规范即可。提交代码之前请先确保通过单元测试。_
 
-## reference
+## 参考
 
 - [overtrue/flysystem-qiniu](https://github.com/overtrue/flysystem-qiniu)
 - [joedixon/laravel-translation](https://github.com/joedixon/laravel-translation)
