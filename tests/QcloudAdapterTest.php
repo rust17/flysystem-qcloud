@@ -7,12 +7,18 @@ use Mockery;
 use Circle33\Flysystem\Qcloud\QcloudAdapter;
 use PHPUnit\Framework\TestCase;
 
-
+/**
+ * Class QcloudAdapterTest
+ */
 class QcloudAdapterTest extends TestCase
 {
     public function qcloudProvider()
     {
+<<<<<<< HEAD
         $adapter = \Mockery::mock(QcloudAdapter::class, ['secretId', 'secretKey', 'bucket', 'region'])
+=======
+        $adapter = Mockery::mock(QcloudAdapter::class, ['secretId', 'secretKey', 'bucket', 'region'])
+>>>>>>> debug unit test
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
 
@@ -23,14 +29,29 @@ class QcloudAdapterTest extends TestCase
 
     /**
      * @dataProvider qcloudProvider
+<<<<<<< HEAD
      */
     public function testWrite()
+=======
+     * @group testing
+     */
+    public function testWrite($adapter)
+>>>>>>> debug unit test
     {
+        // \Mockery::mock('stdClass')->expects()->put('token', 'foo/bar.md', 'content', null, 'application/octet-stream')
+        //     ->andReturn(['response', false], ['response', true])
+        //     ->twice();
 
+        // $this->assertSame('response', $adapter->write('foo/bar.md', 'content', new Config()));
+        // $this->assertFalse($adapter->write('foo/bar.md', 'content', new Config()));
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testWriteStream()
     {
@@ -38,7 +59,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testUpdate()
     {
@@ -46,7 +71,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testUpdateStream()
     {
@@ -54,7 +83,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testRename()
     {
@@ -62,7 +95,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testCopy()
     {
@@ -70,7 +107,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testDelete()
     {
@@ -78,7 +119,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testDeleteDir()
     {
@@ -86,7 +131,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testCreateDir()
     {
@@ -94,7 +143,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testHas()
     {
@@ -102,7 +155,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testRead()
     {
@@ -110,7 +167,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testReadStream()
     {
@@ -118,7 +179,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testListContents()
     {
@@ -126,7 +191,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testGetMetaData()
     {
@@ -134,7 +203,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testGetSize()
     {
@@ -142,7 +215,11 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testGetMimeType()
     {
@@ -150,13 +227,20 @@ class QcloudAdapterTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @dataProvider qcloudProvider
+=======
+     * @todo
+>>>>>>> debug unit test
      */
     public function testGetTimestamp()
     {
 
     }
 
+    /**
+     * @todo
+     */
     public function testGetOptions()
     {
 
